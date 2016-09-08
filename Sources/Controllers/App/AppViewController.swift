@@ -4,6 +4,7 @@
 
 import SwiftyUserDefaults
 import Crashlytics
+import Birdsong
 
 struct NavigationNotifications {
     static let showingNotificationsTab = TypedNotification<[String]>(name: "co.ello.NavigationNotification.NotificationsTab")
@@ -111,6 +112,13 @@ public class AppViewController: BaseElloViewController {
             }
         }
 
+        WebSocket = Socket(
+//            url: NSURL(string: "ws://ello-messenger-production.herokuapp.com/socket/websocket")!,
+            url: NSURL(string: "ws://localhost:4000/socket/websocket")!,
+            params: ["jwt" : AuthToken().token ?? ""]
+        )
+        connectToWebSocket()
+
         let profileService = ProfileService()
         profileService.loadCurrentUser(
             success: { user in
@@ -135,6 +143,15 @@ public class AppViewController: BaseElloViewController {
             failure: { (error, _) in
                 self.failedToLoadCurrentUser(failureCompletion, error: error)
             })
+    }
+
+    private func connectToWebSocket() {
+        guard let socket = WebSocket else { return }
+
+        socket.onConnect = {
+            print("connected to socket")
+        }
+        socket.connect()
     }
 
     func failedToLoadCurrentUser(failure: ElloErrorCompletion?, error: NSError) {

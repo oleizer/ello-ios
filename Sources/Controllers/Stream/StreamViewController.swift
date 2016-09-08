@@ -45,8 +45,12 @@ public protocol UserDelegate: class {
     func userTappedParam(param: String)
 }
 
-public protocol ConversationDelegate: class {
+public protocol CreateConversationDelegate: class {
     func userSelected(user: User)
+}
+
+public protocol ConversationDelegate: class {
+    func conversationSelected(conversation: Conversation)
 }
 
 public protocol WebLinkDelegate: class {
@@ -159,6 +163,7 @@ public final class StreamViewController: BaseElloViewController {
     weak var postTappedDelegate: PostTappedDelegate?
     weak var userTappedDelegate: UserTappedDelegate?
     weak var streamViewDelegate: StreamViewDelegate?
+    weak var createConversationDelegate: CreateConversationDelegate?
     weak var conversationDelegate: ConversationDelegate?
     var notificationDelegate: NotificationDelegate? {
         get { return dataSource.notificationDelegate }
@@ -289,8 +294,7 @@ public final class StreamViewController: BaseElloViewController {
     public func replacePlaceholder(
         placeholderType: StreamCellType.PlaceholderType,
         @autoclosure with streamCellItemsGenerator: () -> [StreamCellItem],
-        completion: ElloEmptyCompletion = {}
-        )
+        completion: ElloEmptyCompletion = {})
     {
         let streamCellItems = streamCellItemsGenerator()
         for item in streamCellItems {
@@ -620,7 +624,7 @@ public final class StreamViewController: BaseElloViewController {
         dataSource.simpleStreamDelegate = self
         dataSource.categoryDelegate = self
         dataSource.userDelegate = self
-        dataSource.conversationDelegate = self
+        dataSource.createConversationDelegate = self
         dataSource.webLinkDelegate = self
         dataSource.columnToggleDelegate = self
         dataSource.discoverCategoryPickerDelegate = self
@@ -632,11 +636,21 @@ public final class StreamViewController: BaseElloViewController {
 }
 
 // MARK: DELEGATE EXTENSIONS
+// MARK: StreamViewController: CreateConversationDelegate
+extension StreamViewController: CreateConversationDelegate {
+
+    public func userSelected(user: User) {
+        createConversationDelegate?.userSelected(user)
+    }
+}
+
 // MARK: StreamViewController: ConversationDelegate
 extension StreamViewController: ConversationDelegate {
 
-    public func userSelected(user: User) {
-        conversationDelegate?.userSelected(user)
+    public func conversationSelected(conversation: Conversation) {
+        let vc = ConversationViewController(conversation: conversation)
+        vc.currentUser = self.currentUser
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -927,7 +941,7 @@ extension StreamViewController: UserDelegate {
     public func userTappedParam(param: String) {
         userTappedDelegate?.userParamTapped(param)
     }
-    
+
 }
 
 // MARK: StreamViewController: WebLinkDelegate
@@ -1059,6 +1073,11 @@ extension StreamViewController: UICollectionViewDelegate {
         else if tappedCell is UserListItemCell {
             if let user = dataSource.userForIndexPath(indexPath) {
                 userTapped(user)
+            }
+        }
+        else if tappedCell is ConversationCell {
+            if let conversation = dataSource.jsonableForIndexPath(indexPath) as? Conversation {
+                conversationSelected(conversation)
             }
         }
         else if tappedCell is StreamSeeMoreCommentsCell {

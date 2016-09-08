@@ -8,6 +8,10 @@ import TimeAgoInWords
 import PINRemoteImage
 import PINCache
 import ElloUIFonts
+import Birdsong
+
+
+var WebSocket: Socket?
 
 @UIApplicationMain
 public class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -99,7 +103,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     public func applicationWillEnterForeground(application: UIApplication) {
         Tracker.sharedTracker.sessionStarted()
     }
-
 }
 
 // MARK: Notifications

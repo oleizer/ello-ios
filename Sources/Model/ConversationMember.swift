@@ -89,6 +89,10 @@ public final class ConversationMember: JSONAble {
             conversationId: json["conversation_id"].stringValue
         )
 
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(conversationMember, forKey: conversationMember.id, inCollection: MappingType.ConversationMembersType.rawValue)
+        }
+
         return conversationMember
     }
 }

@@ -28,6 +28,9 @@ def ello_app_pods
   pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
   pod 'WebLinking', '~> 1.0'
   pod 'SnapKit', git: 'https://github.com/SnapKit/SnapKit', commit: '307d03ec433d61fbb25c9c4a6bb32689537db4d6'
+  pod 'Birdsong', git: 'https://github.com/ello/Birdsong.git'
+  pod 'JSQMessagesViewController', :git => 'https://github.com/jessesquires/JSQMessagesViewController.git', :branch => 'develop'
+
 end
 
 def common_pods

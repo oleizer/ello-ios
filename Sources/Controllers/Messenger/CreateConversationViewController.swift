@@ -24,7 +24,7 @@ public class CreateConversationViewController: StreamableViewController {
         elloNavigationItem.fixNavBarItemPadding()
 
         streamViewController.streamKind = .CreateConversation
-        streamViewController.conversationDelegate = self
+        streamViewController.createConversationDelegate = self
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -68,11 +68,19 @@ public class CreateConversationViewController: StreamableViewController {
 
 extension CreateConversationViewController {
     func createConversationTapped(target: UIBarButtonItem) {
-        MessengerService().createConversation(selectedUsers)
+        MessengerService().createConversation(
+            selectedUsers,
+            success: {conversation in
+                let vc = ConversationViewController(conversation: conversation)
+                self.navigationController?.pushViewController(vc, animated: true)
+            },
+            failure: { (error, code) in
+                print("failed")
+            })
     }
 }
 
-extension CreateConversationViewController: ConversationDelegate {
+extension CreateConversationViewController: CreateConversationDelegate {
     public func userSelected(user: User) {
         print("user selected")
         if let index = selectedUsers.indexOf(user) {

@@ -44,7 +44,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var userDelegate: UserDelegate?
     weak public var relationshipDelegate: RelationshipDelegate?
     weak public var simpleStreamDelegate: SimpleStreamDelegate?
-    weak public var conversationDelegate: ConversationDelegate?
+    weak public var createConversationDelegate: CreateConversationDelegate?
     weak public var inviteDelegate: InviteDelegate?
     weak public var columnToggleDelegate: ColumnToggleDelegate?
     weak public var discoverCategoryPickerDelegate: DiscoverCategoryPickerDelegate?
@@ -331,7 +331,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate
             (cell as! UserListItemCell).userDelegate = userDelegate
         case .ConversationMemberSelection:
-            (cell as! ConversationMemberSelectionCell).conversationDelegate = conversationDelegate
+            (cell as! ConversationMemberSelectionCell).createConversationDelegate = createConversationDelegate
         default:
             break
         }

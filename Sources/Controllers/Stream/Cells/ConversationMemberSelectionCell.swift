@@ -17,7 +17,7 @@ public class ConversationMemberSelectionCell: UICollectionViewCell {
     }
 
     private var user: User?
-    weak var conversationDelegate: ConversationDelegate?
+    weak var createConversationDelegate: CreateConversationDelegate?
     private let avatarButton = AvatarButton()
     private let usernameLabel = UILabel()
     private let nameLabel = UILabel()
@@ -100,7 +100,7 @@ public class ConversationMemberSelectionCell: UICollectionViewCell {
     func messageButtonTapped(button: UIButton) {
         button.selected = !button.selected
         guard let user = self.user else { return }
-        conversationDelegate?.userSelected(user)
+        createConversationDelegate?.userSelected(user)
     }
 }
 

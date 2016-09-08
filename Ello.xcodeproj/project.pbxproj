@@ -334,6 +334,8 @@
 		12A3A46F1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */; };
 		12A3A4721AB3556F00D2AFB0 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A3A4711AB3556F00D2AFB0 /* Math.swift */; };
 		12A682D71D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A682D61D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift */; };
+		12A682D91D5934F6005328B9 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A682D81D5934F6005328B9 /* ConversationViewController.swift */; };
+		12A682DE1D596044005328B9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12A682DD1D596044005328B9 /* AVFoundation.framework */; };
 		12AF0AFB1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AF0AFA1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift */; };
 		12B093661A6D87C000BF104E /* StreamContainerViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B093651A6D87C000BF104E /* StreamContainerViewControllerSpec.swift */; };
 		12B093681A6E146C00BF104E /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B093671A6E146C00BF104E /* UIBarButtonItem.swift */; };
@@ -1161,6 +1163,8 @@
 		12A3A46E1AB348FB00D2AFB0 /* ElloPullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElloPullToRefreshView.swift; path = sources/Views/ElloPullToRefreshView.swift; sourceTree = SOURCE_ROOT; };
 		12A3A4711AB3556F00D2AFB0 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = sources/Utilities/Math.swift; sourceTree = SOURCE_ROOT; };
 		12A682D61D58F04B005328B9 /* ConversationMemberSelectionCellPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMemberSelectionCellPresenter.swift; sourceTree = "<group>"; };
+		12A682D81D5934F6005328B9 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		12A682DD1D596044005328B9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		12AF0AFA1AA7DC6100BADC6D /* FakeStreamTextCellSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeStreamTextCellSizeCalculator.swift; sourceTree = "<group>"; };
 		12B093651A6D87C000BF104E /* StreamContainerViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = StreamContainerViewControllerSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		12B093671A6E146C00BF104E /* UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
@@ -1799,6 +1803,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12A682DE1D596044005328B9 /* AVFoundation.framework in Frameworks */,
 				12F800801C59D714002436D1 /* KeychainAccess.framework in Frameworks */,
 				01BA14787BB2CA507020C9C4 /* Pods_Ello.framework in Frameworks */,
 			);
@@ -1859,8 +1864,9 @@
 		121534071D518CC500FC55BA /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
-				121534081D518CF100FC55BA /* ConversationsViewController.swift */,
 				1215340A1D51955500FC55BA /* ConversationsScreen.swift */,
+				121534081D518CF100FC55BA /* ConversationsViewController.swift */,
+				12A682D81D5934F6005328B9 /* ConversationViewController.swift */,
 				12F345291D5552E00052F4A3 /* CreateConversationViewController.swift */,
 			);
 			path = Messenger;
@@ -3265,6 +3271,7 @@
 		F2E6171EAB0582B635BF53D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				12A682DD1D596044005328B9 /* AVFoundation.framework */,
 				12DEB24D1C5BFA9200D4CDCE /* libcommonCrypto.tbd */,
 				12F8007F1C59D714002436D1 /* KeychainAccess.framework */,
 				12F8007D1C59D70A002436D1 /* KeychainAccess.framework */,
@@ -4309,6 +4316,7 @@
 				1DF50C981C614E0400C62D89 /* OmnibarImagePickerExtension.swift in Sources */,
 				1DB474FB1BAB5584000AA9DC /* RegexExtensions.swift in Sources */,
 				76B1A6411AE594DC00110D30 /* StreamEmbedCell.swift in Sources */,
+				12A682D91D5934F6005328B9 /* ConversationViewController.swift in Sources */,
 				1D59336C1D10ADA600EAF03D /* Category.swift in Sources */,
 				128D36AD1A951EAA00622833 /* StreamHeaderCellPresenter.swift in Sources */,
 				1207C9861C73FEE000939ADB /* NetworkError.swift in Sources */,

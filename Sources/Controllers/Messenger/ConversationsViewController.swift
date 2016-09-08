@@ -2,9 +2,12 @@
 ///  ConversationsViewController.swift
 //
 
+import Birdsong
+
 public class ConversationsViewController: StreamableViewController {
 
     var screen: ConversationsScreen { return self.view as! ConversationsScreen }
+    private var channel: Channel?
 
     override public var tabBarItem: UITabBarItem? {
         get { return UITabBarItem.item(.Comments) }
@@ -21,6 +24,7 @@ public class ConversationsViewController: StreamableViewController {
         elloNavigationItem.rightBarButtonItems = [rightItem]
         elloNavigationItem.fixNavBarItemPadding()
         streamViewController.streamKind = .Conversations
+
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -35,9 +39,30 @@ public class ConversationsViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        if let
+            websocket = WebSocket,
+            user = currentUser {
+            channel = websocket.channel("v1:user:\(user.id)")
+            connectToUserChannel()
+        }
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+    }
+
+    private func connectToUserChannel() {
+        guard let
+            channel = self.channel
+            else { return }
+
+        channel.on("conversation", callback: { conversation in
+            print("new conversation \(conversation)")
+            self.streamViewController.loadInitialPage()
+        })
+
+        channel.join().receive("ok", callback: { payload in
+            print("Successfully joined: \(channel.topic)")
+        })
     }
 
     private func updateInsets() {

@@ -9,15 +9,22 @@ public class ConversationCell: UICollectionViewCell {
 
     struct Size {
         static let sideMargins: CGFloat = 15
+        static let padding: CGFloat = 5
         static let lineHeight: CGFloat = 1
     }
 
     var title: String {
-        set { label.text = newValue }
-        get { return label.text ?? "" }
+        set { titleLabel.text = newValue }
+        get { return titleLabel.text ?? "" }
     }
 
-    private let label = ElloLabel()
+    var subTitle: String {
+        set { subTitleLabel.text = newValue }
+        get { return subTitleLabel.text ?? "" }
+    }
+
+    private let titleLabel = ElloLabel()
+    private let subTitleLabel = ElloLabel()
     override public init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -29,10 +36,16 @@ public class ConversationCell: UICollectionViewCell {
     }
 
     private func arrange() {
-        contentView.addSubview(label)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subTitleLabel)
 
-        label.snp_makeConstraints { make in
+        titleLabel.snp_makeConstraints { make in
             make.centerY.equalTo(contentView)
+            make.left.equalTo(contentView).offset(Size.sideMargins)
+        }
+
+        subTitleLabel.snp_makeConstraints { make in
+            make.top.equalTo(titleLabel.snp_bottom).offset(Size.padding)
             make.left.equalTo(contentView).offset(Size.sideMargins)
         }
     }

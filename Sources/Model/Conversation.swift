@@ -88,6 +88,7 @@ public final class Conversation: JSONAble {
             Tracker.sharedTracker.createdAtCrash("Conversation", json: json.rawString())
         }
 
+
         let conversation = Conversation(
             id: json["id"].stringValue,
             insertedAt: insertedAt,
@@ -95,6 +96,13 @@ public final class Conversation: JSONAble {
             name: json["name"].stringValue
         )
 
+        // links
+        conversation.links = data["links"] as? [String: AnyObject]
+
+        // store self in collection
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(conversation, forKey: conversation.id, inCollection: MappingType.ConversationsType.rawValue)
+        }
         return conversation
     }
 }
