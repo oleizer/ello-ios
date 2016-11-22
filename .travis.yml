@@ -28,3 +28,6 @@ script:
 - gem install danger --no-ri --no-rdoc && danger
 - set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration
   Debug -destination "OS=10.0,name=iPhone 7" clean test | xcpretty -f `xcpretty-travis-formatter`
+notifications:
+  slack:
+    secure: ex5XcLhTVaN6bdA0iHsnaDGbifBD8AA5sQPKkFLDjMVy7MR1rrnvfWx8yqkFeJftX8DHPULb7Bpqsft5ydUWSVTb0002fraKqBni/apJkMceuFA6CP9R9jyVc0Yg7lQI/NiIcxkwOGlKXnezrShr3RB2XsjFEIz/hkCRMYCUqzA7zM/YBPUCKQDtEv2O+30UiGGx9l73mbIQKJbQ/2pAlqe+zFV4qy6+DT0mEbppnfcGtNbh4WhDADEsveTsYU7Akjwvip5U+hcq7WXa7KLMLm0HPBuRbVVR4NDBwSY+d1WBS89aFH2dYF2nQ4YyYZzLWqB6DpLPOCE91OvbfQ9AFhxc8QWL/MURrntzr4NnTaIPw0OBWfYBlzQ+8OlQdLLpAqkAuwT1ihmUSTgHuo7B5QbKJ750AXwIhUo3tMLZKbZ5f3LCCfKk8J8SKq8juagACgHwSVDm9mu30wHl+8uyNzc8p+8MXFx2/uUJ5oLZiVuLZpYtwunSRLFi2MTbCIcMbcMzhjwt865K8+qvJx9Bgw01BVqf5xCO8ue9OsE4PKZhDPTmrdezWbk5iVZKrdBzz/ivwXg+sJ5NeSREYcqE8fhidEg/3HkGkq1Fmw6/1128JIwM0AHbdegHJVzwwXUoes3gT8N1HwseiTNk8i8jibzf1lXzbe3k3xcBp58nnGI=
