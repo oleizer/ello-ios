@@ -11,17 +11,6 @@ namespace :generate do
     sh "find Sources -name '*.swift' | xargs genstrings -o ."
   end
 
-  desc 'Sets cocoapods-keys for the app pointed at a local development server.'
-  task :local_keys do
-    has_key = set_key('OauthKey', 'LOCAL_CLIENT_KEY')
-    has_key = set_key('OauthSecret', 'LOCAL_CLIENT_SECRET') if has_key
-    has_key = set_key('TeamId', 'ELLO_TEAM_ID') if has_key
-    has_key = set_key('Domain', 'LOCAL_DOMAIN') if has_key
-    has_key = set_key('HttpProtocol', 'LOCAL_HTTP_PROTOCOL') if has_key
-    has_key = set_key('SodiumChloride', 'INVITE_FRIENDS_SALT') if has_key
-    sh "bundle exec pod install" if has_key
-  end
-
   desc 'Sets cocoapods-keys for the app pointed at the staging server.'
   task :staging_keys do
     has_key = set_key('OauthKey', 'STAGING_CLIENT_KEY')
