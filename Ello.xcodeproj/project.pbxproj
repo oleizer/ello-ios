@@ -301,6 +301,7 @@
 		12551FBA1A68729900ABC5D9 /* OmnibarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12551FB91A68729900ABC5D9 /* OmnibarViewController.swift */; };
 		12551FBE1A6873D600ABC5D9 /* OmnibarViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12551FBD1A6873D600ABC5D9 /* OmnibarViewControllerSpec.swift */; };
 		125679C61E2440610070110C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 125679C51E2440610070110C /* AdSupport.framework */; };
+		125679C71E2447B20070110C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 125679C51E2440610070110C /* AdSupport.framework */; };
 		125739161B432EB100EF7792 /* AutoCompleteServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125739151B432EB100EF7792 /* AutoCompleteServiceSpec.swift */; };
 		125A50381A61574A00FB979E /* CommentSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125A50371A61574A00FB979E /* CommentSpec.swift */; };
 		125A503D1A65DA5600FB979E /* activity-own-post.json in Resources */ = {isa = PBXBuildFile; fileRef = 125A503C1A65DA5600FB979E /* activity-own-post.json */; };
@@ -2057,6 +2058,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				125679C71E2447B20070110C /* AdSupport.framework in Frameworks */,
 				12F8007E1C59D70A002436D1 /* KeychainAccess.framework in Frameworks */,
 				FF9BCE2738AA63CD1B367ECD /* Pods_ShareExtension.framework in Frameworks */,
 			);
