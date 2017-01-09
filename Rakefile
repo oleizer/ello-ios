@@ -21,6 +21,8 @@ namespace :generate do
     has_key = set_key('SodiumChloride', 'INVITE_FRIENDS_SALT') if has_key
     has_key = set_key('CrashlyticsKey', 'CRASHLYTICS_KEY') if has_key
     has_key = set_key('SegmentKey', 'SEGMENT_KEY') if has_key
+    has_key = set_key('ConversionId', 'CONVERSION_ID') if has_key
+    has_key = set_key('ConversionLabel', 'CONVERSION_LABEL') if has_key
     sh "bundle exec pod install" if has_key
   end
 
@@ -34,10 +36,12 @@ namespace :generate do
     has_key = set_key('SodiumChloride', 'INVITE_FRIENDS_SALT') if has_key
     has_key = set_key('CrashlyticsKey', 'CRASHLYTICS_KEY') if has_key
     has_key = set_key('SegmentKey', 'SEGMENT_KEY') if has_key
+    has_key = set_key('ConversionId', 'CONVERSION_ID') if has_key
+    has_key = set_key('ConversionLabel', 'CONVERSION_LABEL') if has_key
     sh "bundle exec pod install" if has_key
   end
 
-  desc 'Sets cocoapods-keys for the app pointed at the production server.'
+  desc 'Sets cocoapods-keys for the app pointed at the local development server.'
   task :local_keys do
     has_key = set_key('OauthKey', 'LOCAL_CLIENT_KEY')
     has_key = set_key('OauthSecret', 'LOCAL_CLIENT_SECRET') if has_key
@@ -46,6 +50,8 @@ namespace :generate do
     has_key = set_key('SodiumChloride', 'INVITE_FRIENDS_SALT') if has_key
     has_key = set_key('CrashlyticsKey', 'CRASHLYTICS_KEY') if has_key
     has_key = set_key('SegmentKey', 'SEGMENT_KEY') if has_key
+    has_key = set_key('ConversionId', 'CONVERSION_ID') if has_key
+    has_key = set_key('ConversionLabel', 'CONVERSION_LABEL') if has_key
     sh "bundle exec pod install" if has_key
   end
 

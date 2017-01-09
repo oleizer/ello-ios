@@ -88,6 +88,8 @@ plugin 'cocoapods-keys', {
     'HttpProtocol',
     'SodiumChloride',
     'SegmentKey',
+    'ConversionId',
+    'ConversionLabel',
   ]
 }
 
