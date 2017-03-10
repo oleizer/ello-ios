@@ -341,7 +341,7 @@ class AssetSpec: QuickSpec {
                         let unArchivedAsset = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as! Asset
 
                         expect(unArchivedAsset).toNot(beNil())
-                        expect(unArchivedAsset.version) == 2
+                        expect(unArchivedAsset.version) == 1
 
                         expect(unArchivedAsset.id) == "5698"
 
