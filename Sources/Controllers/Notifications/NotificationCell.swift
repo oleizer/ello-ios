@@ -334,7 +334,6 @@ class NotificationCell: UICollectionViewCell, UIWebViewDelegate {
     override func prepareForReuse() {
         super.prepareForReuse()
         mode = .normal
-        videoView.reset()
         messageWebView.stopLoading()
         messageWebView.isHidden = true
         avatarButton.pin_cancelImageDownload()

@@ -167,6 +167,7 @@ class StreamImageCell: StreamRegionableCell {
 
     func setVideoURL(_ url: URL, size: CGSize) {
         imageSize = size
+        videoView.isHidden = false
         imageView.image = nil
         failImage.isHidden = true
         failImage.alpha = 0
@@ -206,6 +207,7 @@ class StreamImageCell: StreamRegionableCell {
     }
 
     func setImageURL(_ url: URL) {
+        videoView.isHidden = true
         imageView.image = nil
         imageView.alpha = 0
         circle.pulse()
@@ -216,6 +218,7 @@ class StreamImageCell: StreamRegionableCell {
     }
 
     func setImage(_ image: UIImage) {
+        videoView.isHidden = true
         imageView.pin_cancelImageDownload()
         imageView.image = image
         imageView.alpha = 1

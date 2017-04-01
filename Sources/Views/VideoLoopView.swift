@@ -10,8 +10,61 @@ import PINRemoteImage
 import PINCache
 import Alamofire
 
-public class VideoLoopView: UIView {
+let assetPool = AVAssetPool()
 
+class AssetWithThumbnail {
+    let asset: AVURLAsset
+    var thumbnail: UIImage?
+    init(asset: AVURLAsset){
+        self.asset = asset
+    }
+}
+
+class AVAssetPool: NSObject {
+    var assets: [String : AssetWithThumbnail] = [:]
+    var memoryObserver: NotificationObserver?
+
+    override init() {
+        super.init()
+        setupObservers()
+    }
+
+    func setupObservers() {
+        self.memoryObserver = NotificationObserver(notification: Application.Notifications.DidReceiveMemoryWarning) { [weak self] _ in
+            self?.assets = [:]
+        }
+    }
+
+    deinit {
+        memoryObserver?.removeObserver()
+    }
+
+    func itemFor(url: URL) -> AssetWithThumbnail {
+        let key = url.absoluteString
+        guard let assetWithThumbnail = assets[key] else {
+            let newAsset = AVURLAsset(url: url)
+            let newAssetWithThumbnail = AssetWithThumbnail(asset: newAsset)
+            assets[key] = newAssetWithThumbnail
+            generateThumbnailFor(asset: newAsset, key: key)
+            return newAssetWithThumbnail
+        }
+        return assetWithThumbnail
+    }
+
+    func generateThumbnailFor(asset: AVURLAsset, key: String) {
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        do {
+            let cgImage: CGImage = try imageGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let image = UIImage(cgImage: cgImage)
+            assetPool.assets[key]?.thumbnail = image
+        }
+        catch {
+            print("unable to generate thumbnail")
+        }
+    }
+}
+
+public class VideoLoopView: UIView {
     private var isObserving = false
     private var shouldPlay = true
     private var promise = Promise<VideoCacheType>()
@@ -20,54 +73,10 @@ public class VideoLoopView: UIView {
     private var foregroundObserver: NotificationObserver?
     private var backgroundObserver: NotificationObserver?
     private let playerLayer: AVPlayerLayer = AVPlayerLayer()
-    private var player: AVPlayer?
-    private var playerItem: AVPlayerItem? {
-        willSet {
-            removeObservers()
-        }
-        didSet {
-            guard let playerItem = self.playerItem else { return }
-            isObserving = true
-            playerItem.addObserver(
-                self,
-                forKeyPath: #keyPath(AVPlayerItem.status),
-                options: [.old, .new],
-                context: nil
-            )
-            player = AVPlayer(playerItem: playerItem)
-            player?.actionAtItemEnd = .none
-            player?.isMuted = true
-            playerLayer.player = player
-
-            videoObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: nil) { [weak self] _ in
-                guard let `self` = self, self.shouldPlay else { return }
-
-                inForeground {
-                    self.player?.seek(to: kCMTimeZero)
-                }
-            }
-
-            foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) { [weak self] _ in
-                guard let `self` = self, self.shouldPlay else { return }
-
-                inForeground {
-                    self.play()
-                }
-            }
-
-            backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { [weak self] _ in
-                guard let `self` = self, self.shouldPlay else { return }
-
-                inForeground {
-                    self.player?.pause()
-                }
-            }
-
-            play()
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-        }
-    }
+    private var player = AVPlayer(playerItem: nil)
+    private var playerItem: AVPlayerItem?
+    private var playerAsset: AVURLAsset?
+    private var thumbnailView: UIImageView?
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -91,15 +100,28 @@ public class VideoLoopView: UIView {
     }
 
     public func loadVideo(url: URL) -> Future<VideoCacheType>  {
+        promise = Promise<VideoCacheType>()
         let cache = VideoCache()
         cache.loadVideo(url: url)
-        .onSuccess { [weak self] (url, type) in
-            guard let `self` = self else { return }
-            self.cacheType = type
-            self.playerItem = AVPlayerItem(url: url)
-        }
-        .onFail { _ in
-            self.promise.completeWithFail("Unable to Load")
+            .onSuccess { [weak self] (url, type) in
+                guard let `self` = self else { return }
+                self.cacheType = type
+                inForeground {
+                    if let image = assetPool.assets[url.absoluteString]?.thumbnail
+                    {
+                        let thumbnail = UIImageView(image: image)
+                        self.thumbnailView?.removeFromSuperview()
+                        self.thumbnailView = thumbnail
+                        self.thumbnailView?.contentMode = .scaleAspectFit
+                        self.thumbnailView?.frame = self.bounds
+                        self.thumbnailView?.alpha = 0.5
+                        self.addSubview(thumbnail)
+                    }
+                    self.setupPlayer(url: url)
+                }
+            }
+            .onFail { _ in
+                self.promise.completeWithFail("Unable to Load")
         }
         return promise.future
     }
@@ -122,16 +144,24 @@ public class VideoLoopView: UIView {
 
         switch status {
         case .readyToPlay:
-            promise.completeWithSuccess(cacheType)
+            completeSuccessfully()
         case .failed:
+            print(playerItem?.error?.localizedDescription ?? "failed, unknown error")
             promise.completeWithFail("Failed To Load")
         case .unknown:
             break
         }
     }
 
+    private func completeSuccessfully() {
+        thumbnailView?.removeFromSuperview()
+        thumbnailView = nil
+        promise.completeWithSuccess(cacheType)
+    }
+
     public func reset() {
-        player?.replaceCurrentItem(with: nil)
+        thumbnailView?.removeFromSuperview()
+        thumbnailView = nil
     }
 
     public func playVideo() {
@@ -141,14 +171,78 @@ public class VideoLoopView: UIView {
 
     public func pauseVideo() {
         shouldPlay = false
-        player?.pause()
+        player.pause()
     }
 
     private func setup() {
+        player.actionAtItemEnd = .none
+        player.isMuted = true
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         playerLayer.backgroundColor = UIColor.clear.cgColor
         playerLayer.frame = bounds
         layer.addSublayer(playerLayer)
+        playerLayer.player = player
+    }
+
+    private func setupPlayer(url: URL) {
+
+        let asset = assetPool.itemFor(url: url).asset
+
+
+        guard asset != playerAsset else {
+            self.play()
+            self.promise.completeWithSuccess(self.cacheType)
+            return
+        }
+
+        removeObservers()
+        playerAsset = asset
+        playerItem = AVPlayerItem(asset: asset)
+        player.replaceCurrentItem(with: playerItem)
+
+        addObservers()
+
+        play()
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+    }
+
+    func addObservers() {
+        isObserving = true
+        playerItem?.addObserver(
+            self,
+            forKeyPath: #keyPath(AVPlayerItem.status),
+            options: [.old, .new],
+            context: nil
+        )
+
+        if playerItem?.status == .readyToPlay {
+            completeSuccessfully()
+        }
+
+        videoObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerItem, queue: nil) { [weak self] _ in
+            guard let `self` = self, self.shouldPlay else { return }
+
+            inForeground {
+                self.player.seek(to: kCMTimeZero)
+            }
+        }
+
+        foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) { [weak self] _ in
+            guard let `self` = self, self.shouldPlay else { return }
+
+            inForeground {
+                self.play()
+            }
+        }
+
+        backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { [weak self] _ in
+            guard let `self` = self, self.shouldPlay else { return }
+
+            inForeground {
+                self.player.pause()
+            }
+        }
     }
 
     private func removeObservers() {
@@ -175,6 +269,10 @@ public class VideoLoopView: UIView {
         } catch let error as NSError {
             print(error)
         }
-        player?.play()
+        if playerItem?.status == .readyToPlay {
+            thumbnailView?.removeFromSuperview()
+            thumbnailView = nil
+        }
+        player.play()
     }
 }
