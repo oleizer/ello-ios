@@ -101,28 +101,28 @@ public class VideoLoopView: UIView {
 
     public func loadVideo(url: URL) -> Future<VideoCacheType>  {
         promise = Promise<VideoCacheType>()
-        let cache = VideoCache()
-        cache.loadVideo(url: url)
-            .onSuccess { [weak self] (url, type) in
-                guard let `self` = self else { return }
-                self.cacheType = type
-                inForeground {
-                    if let image = assetPool.assets[url.absoluteString]?.thumbnail
-                    {
-                        let thumbnail = UIImageView(image: image)
-                        self.thumbnailView?.removeFromSuperview()
-                        self.thumbnailView = thumbnail
-                        self.thumbnailView?.contentMode = .scaleAspectFit
-                        self.thumbnailView?.frame = self.bounds
-                        self.thumbnailView?.alpha = 0.5
-                        self.addSubview(thumbnail)
-                    }
-                    self.setupPlayer(url: url)
-                }
-            }
-            .onFail { _ in
-                self.promise.completeWithFail("Unable to Load")
-        }
+//        let cache = VideoCache()
+//        cache.loadVideo(url: url)
+//            .onSuccess { [weak self] (url, type) in
+//                guard let `self` = self else { return }
+//                self.cacheType = type
+//                inForeground {
+//                    if let image = assetPool.assets[url.absoluteString]?.thumbnail
+//                    {
+//                        let thumbnail = UIImageView(image: image)
+//                        self.thumbnailView?.removeFromSuperview()
+//                        self.thumbnailView = thumbnail
+//                        self.thumbnailView?.contentMode = .scaleAspectFit
+//                        self.thumbnailView?.frame = self.bounds
+//                        self.thumbnailView?.alpha = 0.5
+//                        self.addSubview(thumbnail)
+//                    }
+//                    self.setupPlayer(url: url)
+//                }
+//            }
+//            .onFail { _ in
+//                self.promise.completeWithFail("Unable to Load")
+//        }
         return promise.future
     }
 

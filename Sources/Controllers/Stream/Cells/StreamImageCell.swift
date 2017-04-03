@@ -6,6 +6,7 @@ import FLAnimatedImage
 import PINRemoteImage
 import Alamofire
 import AVFoundation
+import NSGIF
 
 enum StreamImageCellMode {
     case image
@@ -167,40 +168,25 @@ class StreamImageCell: StreamRegionableCell {
 
     func setVideoURL(_ url: URL, size: CGSize) {
         imageSize = size
-        videoView.isHidden = false
+//        videoView.isHidden = false
         imageView.image = nil
         failImage.isHidden = true
         failImage.alpha = 0
-        imageView.alpha = 0
+        imageView.alpha = 1
         circle.pulse()
         imageView.backgroundColor = UIColor.white
         loadVideo(url)
     }
 
     func loadVideo(_ url: URL) {
-        videoView.loadVideo(url: url)
-            .onSuccess { [weak self] type in
+        let cache = VideoCache()
+        cache.loadVideo(url: url)
+            .onSuccess { [weak self] (image, type) in
                 guard let `self` = self else { return }
-                self.videoView.frame = self.imageView.frame
-                self.videoView.layoutIfNeeded()
-                switch type {
-                case .cache:
-                    self.videoView.alpha = 1.0
-                    self.circle.stopPulse()
-                default:
-                    self.videoView.alpha = 0.0
-                    UIView.animate(withDuration: 0.3,
-                       delay:0.0,
-                       options:UIViewAnimationOptions.curveLinear,
-                       animations: {
-                        self.videoView.alpha = 1.0
-                    }, completion: { _ in
-                        self.circle.stopPulse()
-                    })
-                }
-
+                self.imageView.animatedImage = image
             }
             .onFail { [weak self] _ in
+                print("failed to load/transcode video")
                 guard let `self` = self else { return }
                 self.imageLoadFailed()
             }

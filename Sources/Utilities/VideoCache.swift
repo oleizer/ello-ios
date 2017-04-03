@@ -6,13 +6,14 @@ import PINCache
 import PINRemoteImage
 import Alamofire
 import FutureKit
+import NSGIF
 
 public enum VideoCacheType {
     case cache
     case network
 }
 
-public typealias VideoCacheResult = (URL, VideoCacheType)
+public typealias VideoCacheResult = (FLAnimatedImage, VideoCacheType)
 
 public struct VideoCache {
 
@@ -23,46 +24,60 @@ public struct VideoCache {
         let pinCache = PINRemoteImageManager.shared().pinCache
         let key = url.absoluteString
 
-        pinCache?.containsObject(forKeyAsync: key) { exists in
-            guard exists else {
+        pinCache?.object(forKeyAsync: key) { (cache, key, object) in
+            guard
+                let object = object as? Data,
+                let animatedImage = FLAnimatedImage(animatedGIFData: object)
+            else {
                 self.loadVideoFromNetwork(url: url, promise: promise)
                 return
             }
-
-            pinCache?.diskCache.fileURL(forKeyAsync: key) { key, url in
-                guard let url = url else {
-                    promise.completeWithFail(VideoCache.failToLoadMessage)
-                    return
-                }
-                promise.completeWithSuccess((url, VideoCacheType.cache))
+            inForeground {
+                promise.completeWithSuccess((animatedImage, VideoCacheType.cache))
             }
+
         }
-        return promise.future
+         return promise.future
     }
 
     private func loadVideoFromNetwork(url: URL, promise: Promise<VideoCacheResult>) {
-        Alamofire.request(url).responseData { response in
-            guard
-                let data = response.data,
-                let pinCache = PINRemoteImageManager.shared().pinCache,
-                response.result.isSuccess
-            else {
-                promise.completeWithFail(VideoCache.failToLoadMessage)
-                return
-            }
+        let start = Date()
+        let id = url.lastPathComponent
+        print("-------------")
+        print("start - \(id)")
+        let key = url.absoluteString
+        guard let pinCache = PINRemoteImageManager.shared().pinCache else {
+            promise.completeWithFail(VideoCache.failToLoadMessage)
+            return
+        }
 
-            pinCache.setObjectAsync(data, forKey: url.absoluteString) { (cache, key, _) in
-                guard let cache = cache as? PINCache else {
+        inBackground {
+            NSGIF.optimalGIFfromURL(url, loopCount: 0) { gifURL in
+                guard let gifURL = gifURL, FileManager.default.fileExists(atPath: gifURL.path) else {
                     promise.completeWithFail(VideoCache.failToLoadMessage)
                     return
                 }
+                print("transcoded - \(id) in \(Date().timeIntervalSince(start)) seconds")
+                do {
+                    let gif = try Data(contentsOf: gifURL)
+                    pinCache.setObjectAsync(gif, forKey: key) { (cache, key, object) in
+                        do { try FileManager.default.removeItem(at: gifURL) }
+                        catch { print("unable to delete nsgif") }
 
-                cache.diskCache.fileURL(forKeyAsync: key) { key, localURL in
-                    guard let localURL = localURL else {
-                        promise.completeWithFail(VideoCache.failToLoadMessage)
-                        return
+                        guard
+                            let object = object as? Data,
+                            let animatedImage = FLAnimatedImage(animatedGIFData: object)
+                        else {
+                            promise.completeWithFail(VideoCache.failToLoadMessage)
+                            return
+                        }
+                        inForeground {
+                            promise.completeWithSuccess((animatedImage, VideoCacheType.network))
+                        }
                     }
-                    promise.completeWithSuccess((localURL, VideoCacheType.network))
+                }
+                catch {
+                    promise.completeWithFail(VideoCache.failToLoadMessage)
                 }
             }
         }

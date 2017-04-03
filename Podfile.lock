@@ -48,6 +48,7 @@ PODS:
     - FBSnapshotTestCase (~> 2.0)
     - Nimble
     - Quick
+  - NSGIF (1.2.4)
   - PINCache (3.0.1-beta.4):
     - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
     - PINCache/Core (= 3.0.1-beta.4)
@@ -145,6 +146,7 @@ DEPENDENCIES:
   - Moya (= 8.0.3)
   - Nimble (= 6.0.1)
   - Nimble-Snapshots (~> 4.4)
+  - NSGIF (= 1.2.4)
   - PINCache (from `https://github.com/ello/PINCache`, commit `78c3461`)
   - PINRemoteImage (= 3.0.0-beta.8)
   - Quick (= 1.1.0)
@@ -261,6 +263,7 @@ SPEC CHECKSUMS:
   Moya: d3721622e3cc0cc2f038d69a258686f0b66e7252
   Nimble: 1527fd1bd2b4cf0636251a36bc8ab37e81da8347
   Nimble-Snapshots: e743439f26c2fa99d8f7e0d7c01c99bcb40aa6f2
+  NSGIF: 442808fd1667ebac3d09046c3f6d4bdd6720cded
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
@@ -276,6 +279,6 @@ SPEC CHECKSUMS:
   WebLinking: 3f71787c14a225148e8be29fe6e7c98597cbc459
   YapDatabase: 861c720d5850a59f9e5c0bad0fd95334012b9dc9
 
-PODFILE CHECKSUM: f1fae533a9e0c5a6f272c2bbe8f8aa8c476d6ac6
+PODFILE CHECKSUM: da25940187d9d20cd755a96d26533eaa29dc4cd6
 
 COCOAPODS: 1.1.1
