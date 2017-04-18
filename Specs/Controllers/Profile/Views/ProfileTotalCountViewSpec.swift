@@ -5,6 +5,7 @@
 @testable import Ello
 import Quick
 import Nimble
+import Nimble_Snapshots
 
 
 class ProfileTotalCountViewSpec: QuickSpec {
@@ -17,6 +18,15 @@ class ProfileTotalCountViewSpec: QuickSpec {
                 ))
                 subject.count = "2.3M"
                 expectValidSnapshot(subject, named: "ProfileTotalCountView")
+            }
+
+            it("half-width") {
+                let subject = ProfileTotalCountView(frame: CGRect(
+                    origin: .zero,
+                    size: CGSize(width: 187, height: 60)
+                ))
+                subject.count = "2.3M"
+                expectValidSnapshot(subject, named: "ProfileTotalCountView_halfwidth")
             }
         }
     }

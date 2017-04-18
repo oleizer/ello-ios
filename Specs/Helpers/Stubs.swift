@@ -59,6 +59,14 @@ extension User: Stubbable {
         user.postsCount = (values["postsCount"] as? Int) ?? 0
         user.lovesCount = (values["lovesCount"] as? Int) ?? 0
         user.totalViewsCount = (values["totalViewsCount"] as? Int)
+
+        if let badges = values["badges"] as? [ProfileBadge] {
+            user.badges = badges
+        }
+        else if let badgeNames = values["badges"] as? [String] {
+            user.badges = badgeNames.flatMap { ProfileBadge(rawValue: $0) }
+        }
+
         if let count = values["followersCount"] as? Int {
             user.followersCount = String(count)
         }
@@ -68,6 +76,7 @@ extension User: Stubbable {
         else {
             user.followersCount = "stub-user-followers-count"
         }
+
         user.followingCount = (values["followingCount"] as? Int) ?? 0
         user.formattedShortBio = (values["formattedShortBio"] as? String)
         if let linkValues = (values["externalLinksList"] as? [[String:String]]) {
@@ -91,7 +100,7 @@ extension User: Stubbable {
             }
             user.addLinkArray("posts", array: postIds, type: .postsType)
         }
-        
+
         if let categories = values["categories"] as? [Ello.Category] {
             for category in categories {
                 ElloLinkedStore.sharedInstance.setObject(category, forKey: category.id, type: .categoriesType)

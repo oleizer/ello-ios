@@ -17,6 +17,7 @@ class ProfileHeaderCellSizeCalculator {
     let avatarSizeCalculator = ProfileAvatarSizeCalculator()
     let namesSizeCalculator = ProfileNamesSizeCalculator()
     let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
+    let badgesSizeCalculator = ProfileBadgesSizeCalculator()
     let statsSizeCalculator = ProfileStatsSizeCalculator()
     let bioSizeCalculator = ProfileBioSizeCalculator()
     let locationSizeCalculator = ProfileLocationSizeCalculator()
@@ -38,13 +39,14 @@ class ProfileHeaderCellSizeCalculator {
             let profileAvatar = calculatedCellHeights.profileAvatar,
             let profileNames = calculatedCellHeights.profileNames,
             let profileTotalCount = calculatedCellHeights.profileTotalCount,
+            let profileBadges = calculatedCellHeights.profileBadges,
             let profileStats = calculatedCellHeights.profileStats,
             let profileBio = calculatedCellHeights.profileBio,
             let profileLocation = calculatedCellHeights.profileLocation,
             let profileLinks = calculatedCellHeights.profileLinks
         else { return nil }
 
-        return profileAvatar + profileNames + profileTotalCount + profileStats + profileBio + profileLocation + profileLinks
+        return profileAvatar + profileNames + max(profileTotalCount, profileBadges) + profileStats + profileBio + profileLocation + profileLinks
     }
 
 }
@@ -97,6 +99,7 @@ private extension ProfileHeaderCellSizeCalculator {
             (.profileAvatar, avatarSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.profileNames, namesSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.profileTotalCount, totalCountSizeCalculator.calculate(item)),
+            (.profileBadges, badgesSizeCalculator.calculate(item)),
             (.profileStats, statsSizeCalculator.calculate(item)),
             (.profileBio, bioSizeCalculator.calculate(item, maxWidth: maxWidth)),
             (.profileLocation, locationSizeCalculator.calculate(item, maxWidth: maxWidth)),

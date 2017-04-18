@@ -33,6 +33,7 @@ class ProfileHeaderLayoutView: ProfileBaseView {
     let avatarView = ProfileAvatarView()
     let namesView = ProfileNamesView()
     let totalCountView = ProfileTotalCountView()
+    let badgesView = ProfileBadgesView()
     let statsView = ProfileStatsView()
     let bioView = ProfileBioView()
     let locationView = ProfileLocationView()

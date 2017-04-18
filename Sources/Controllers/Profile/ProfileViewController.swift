@@ -392,7 +392,7 @@ extension ProfileViewController: PostsTappedResponder {
 // MARK: ProfileHeaderResponder
 extension ProfileViewController: ProfileHeaderResponder {
 
-    func onCategoryBadgeTapped(_ cell: UICollectionViewCell) {
+    func onCategoryBadgeTapped() {
         guard
             let categories = user?.categories,
             let count = user?.categories?.count,
@@ -408,7 +408,14 @@ extension ProfileViewController: ProfileHeaderResponder {
         present(vc, animated: true, completion: nil)
     }
 
-    func onLovesTapped(_ cell: UICollectionViewCell) {
+    func onBadgeTapped(_ badgeName: String) {
+        guard let badge = ProfileBadge(rawValue: badgeName) else { return }
+    }
+
+    func onMoreBadgesTapped() {
+    }
+
+    func onLovesTapped() {
         guard let user = self.user else { return }
 
         let noResultsTitle: String
@@ -429,7 +436,7 @@ extension ProfileViewController: ProfileHeaderResponder {
         )
     }
 
-    func onFollowersTapped(_ cell: UICollectionViewCell) {
+    func onFollowersTapped() {
         guard let user = self.user else { return }
 
         let noResultsTitle: String
@@ -450,7 +457,7 @@ extension ProfileViewController: ProfileHeaderResponder {
         )
     }
 
-    func onFollowingTapped(_ cell: UICollectionViewCell) {
+    func onFollowingTapped() {
         guard let user = user else { return }
 
         let noResultsTitle: String
