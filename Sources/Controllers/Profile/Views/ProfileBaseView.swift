@@ -33,12 +33,8 @@ class ProfileBaseView: UIView {
 }
 
 extension ProfileBaseView {
-
     func style() {}
-
     func bindActions() {}
-
     func setText() {}
-
     func arrange() {}
 }

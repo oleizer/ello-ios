@@ -14,13 +14,13 @@ class ProfileHeaderCellSizeCalculator {
     fileprivate var cellItems: [StreamCellItem] = []
     fileprivate var completion: ElloEmptyCompletion = {}
 
-    let statsSizeCalculator = ProfileStatsSizeCalculator()
     let avatarSizeCalculator = ProfileAvatarSizeCalculator()
+    let namesSizeCalculator = ProfileNamesSizeCalculator()
+    let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
+    let statsSizeCalculator = ProfileStatsSizeCalculator()
     let bioSizeCalculator = ProfileBioSizeCalculator()
     let locationSizeCalculator = ProfileLocationSizeCalculator()
     let linksSizeCalculator = ProfileLinksSizeCalculator()
-    let namesSizeCalculator = ProfileNamesSizeCalculator()
-    let totalCountSizeCalculator = ProfileTotalCountSizeCalculator()
 
 // MARK: Public
     init() {}
