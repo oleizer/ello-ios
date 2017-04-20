@@ -33,14 +33,16 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
 
     var topInsetView: UIView { return profileButtonsEffect }
 
+    // for testing
+    let relationshipControl = RelationshipControl()
+    let mentionButton = StyledButton(style: .blackPill)
+    let collaborateButton = StyledButton(style: .blackPill)
+    let hireButton = StyledButton(style: .blackPill)
+    let editButton = StyledButton(style: .blackPill)
+
     fileprivate let whiteSolidView = UIView()
     fileprivate let loaderView = InterpolatedLoadingView()
     fileprivate let coverImageView = FLAnimatedImageView()
-    fileprivate let relationshipControl = RelationshipControl()
-    fileprivate let mentionButton = StyledButton(style: .blackPill)
-    fileprivate let collaborateButton = StyledButton(style: .blackPill)
-    fileprivate let hireButton = StyledButton(style: .blackPill)
-    fileprivate let editButton = StyledButton(style: .blackPill)
     fileprivate let inviteButton = StyledButton(style: .blackPill)
     fileprivate let ghostLeftButton = StyledButton(style: .blackPill)
     fileprivate let ghostRightButton = StyledButton(style: .blackPill)
