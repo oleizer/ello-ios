@@ -19,8 +19,8 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
 
     weak var delegate: SearchScreenDelegate?
 
-    let searchField = SearchNavBarField()
-    let searchControlsContainer = UIView()
+    var topInsetView: UIView { return searchControlsContainer }
+
     var showsFindFriends: Bool = true {
         didSet { showHideFindFriends() }
     }
@@ -30,6 +30,10 @@ class SearchScreen: StreamableScreen, SearchScreenProtocol {
         }
     }
 
+    // for specs
+    let searchField = SearchNavBarField()
+
+    fileprivate let searchControlsContainer = UIView()
     fileprivate let debounced: ThrottledBlock = debounce(0.8)
     fileprivate let backButton = UIButton()
     fileprivate let postsToggleButton = SearchToggleButton()
