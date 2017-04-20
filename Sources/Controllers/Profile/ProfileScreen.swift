@@ -31,15 +31,15 @@ class ProfileScreen: StreamableScreen, ProfileScreenProtocol {
         set { coverImageView.pin_setImage(from: newValue) { _ in } }
     }
 
-    // views
-    let whiteSolidView = UIView()
-    let loaderView = InterpolatedLoadingView()
     var topInsetView: UIView { return profileButtonsEffect }
-    let coverImageView = FLAnimatedImageView()
-    let relationshipControl = RelationshipControl()
-    let mentionButton = StyledButton(style: .blackPill)
-    let collaborateButton = StyledButton(style: .blackPill)
-    let hireButton = StyledButton(style: .blackPill)
+
+    fileprivate let whiteSolidView = UIView()
+    fileprivate let loaderView = InterpolatedLoadingView()
+    fileprivate let coverImageView = FLAnimatedImageView()
+    fileprivate let relationshipControl = RelationshipControl()
+    fileprivate let mentionButton = StyledButton(style: .blackPill)
+    fileprivate let collaborateButton = StyledButton(style: .blackPill)
+    fileprivate let hireButton = StyledButton(style: .blackPill)
     fileprivate let editButton = StyledButton(style: .blackPill)
     fileprivate let inviteButton = StyledButton(style: .blackPill)
     fileprivate let ghostLeftButton = StyledButton(style: .blackPill)
