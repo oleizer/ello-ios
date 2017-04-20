@@ -73,5 +73,3 @@ private extension ProfileTotalCountView {
         setNeedsLayout()
     }
 }
-
-extension ProfileTotalCountView: ProfileViewProtocol {}

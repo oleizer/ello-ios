@@ -198,5 +198,3 @@ extension ProfileLinksView {
         ElloWebViewHelper.handle(request: request, origin: self)
     }
 }
-
-extension ProfileLinksView: ProfileViewProtocol {}

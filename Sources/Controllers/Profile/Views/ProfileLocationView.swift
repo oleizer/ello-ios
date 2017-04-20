@@ -76,5 +76,3 @@ extension ProfileLocationView {
         location = ""
     }
 }
-
-extension ProfileLocationView: ProfileViewProtocol {}

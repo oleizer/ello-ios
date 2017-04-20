@@ -103,5 +103,3 @@ extension ProfileNamesView {
         // nothing here yet
     }
 }
-
-extension ProfileNamesView: ProfileViewProtocol {}

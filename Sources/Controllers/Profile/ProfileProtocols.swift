@@ -2,8 +2,6 @@
 ///  ProfileProtocols.swift
 //
 
-protocol ProfileViewProtocol: class {}
-
 protocol ProfileScreenProtocol: StreamableScreenProtocol {
     func disableButtons()
     func enableButtons()

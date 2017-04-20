@@ -199,5 +199,3 @@ extension ProfileStatsView {
         }
     }
 }
-
-extension ProfileStatsView: ProfileViewProtocol {}

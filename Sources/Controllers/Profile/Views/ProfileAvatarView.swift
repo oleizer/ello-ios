@@ -79,5 +79,3 @@ extension ProfileAvatarView {
         _avatarURL = nil
     }
 }
-
-extension ProfileAvatarView: ProfileViewProtocol {}
