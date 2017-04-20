@@ -36,10 +36,10 @@ final class ProfileViewController: StreamableViewController {
         set { _tabBarItem = newValue }
     }
 
-    var _mockScreen: ProfileScreenProtocol?
+    private var _mockScreen: ProfileScreenProtocol?
     var screen: ProfileScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! ProfileScreenProtocol }
+        get { return _mockScreen ?? self.view as! ProfileScreen }
     }
 
     var user: User?

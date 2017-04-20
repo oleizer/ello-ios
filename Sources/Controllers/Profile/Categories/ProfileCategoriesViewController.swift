@@ -18,8 +18,11 @@ final class ProfileCategoriesViewController: BaseElloViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var mockScreen: ProfileCategoriesProtocol?
-    var screen: ProfileCategoriesProtocol { return mockScreen ?? (self.view as! ProfileCategoriesProtocol) }
+    private var _mockScreen: ProfileCategoriesProtocol?
+    var screen: ProfileCategoriesProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! ProfileCategoriesScreen) }
+    }
 
     override func loadView() {
         let screen = ProfileCategoriesScreen(categories: categories)

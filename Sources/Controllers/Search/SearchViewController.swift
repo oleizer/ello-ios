@@ -20,10 +20,10 @@ class SearchViewController: StreamableViewController {
     var searchText: String?
     var isPostSearch = true
 
-    var _mockScreen: SearchScreenProtocol?
+    private var _mockScreen: SearchScreenProtocol?
     var screen: SearchScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! SearchScreenProtocol }
+        get { return _mockScreen ?? self.view as! SearchScreen }
     }
 
     override func loadView() {

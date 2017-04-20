@@ -24,9 +24,10 @@ final class CategoryViewController: StreamableViewController {
         set { self.tabBarItem = newValue }
     }
 
-    var mockScreen: CategoryScreenProtocol?
+    private var _mockScreen: CategoryScreenProtocol?
     var screen: CategoryScreenProtocol {
-        return mockScreen ?? self.view as! CategoryScreenProtocol
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! CategoryScreen }
     }
 
     var category: Category?

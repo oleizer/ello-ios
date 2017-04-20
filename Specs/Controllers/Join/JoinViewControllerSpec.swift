@@ -85,7 +85,7 @@ class JoinViewControllerSpec: QuickSpec {
             beforeEach {
                 subject = JoinViewController()
                 mockScreen = MockScreen()
-                subject.mockScreen = mockScreen
+                subject.screen = mockScreen
                 showController(subject)
             }
 

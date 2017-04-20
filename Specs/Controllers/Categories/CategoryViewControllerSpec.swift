@@ -58,7 +58,7 @@ class CategoryViewControllerSpec: QuickSpec {
                 subject = CategoryViewController(slug: category.slug)
                 screen = MockCategoryScreen()
                 subject.currentUser = currentUser
-                subject.mockScreen = screen
+                subject.screen = screen
                 showController(subject)
             }
 
@@ -71,7 +71,7 @@ class CategoryViewControllerSpec: QuickSpec {
                 subject = CategoryViewController(slug: category.slug)
                 screen = MockCategoryScreen()
                 subject.currentUser = currentUser
-                subject.mockScreen = screen
+                subject.screen = screen
 
                 let nav = UINavigationController(rootViewController: UIViewController())
                 nav.pushViewController(subject, animated: false)

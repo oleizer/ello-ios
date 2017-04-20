@@ -5,8 +5,11 @@
 import OnePasswordExtension
 
 class JoinViewController: BaseElloViewController {
-    var mockScreen: JoinScreenProtocol?
-    var screen: JoinScreenProtocol { return mockScreen ?? (self.view as! JoinScreenProtocol) }
+    private var _mockScreen: JoinScreenProtocol?
+    var screen: JoinScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! JoinScreen) }
+    }
 
     var invitationCode: String?
 

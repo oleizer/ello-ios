@@ -6,8 +6,11 @@ import Alamofire
 import OnePasswordExtension
 
 class LoginViewController: BaseElloViewController {
-    var mockScreen: LoginScreenProtocol?
-    var screen: LoginScreenProtocol { return mockScreen ?? (self.view as! LoginScreenProtocol) }
+    private var _mockScreen: LoginScreenProtocol?
+    var screen: LoginScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! LoginScreen) }
+    }
 
     override func loadView() {
         let screen = LoginScreen()
