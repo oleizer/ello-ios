@@ -168,7 +168,7 @@ final class ProfileViewController: StreamableViewController {
 
     override func hideNavBars() {
         super.hideNavBars()
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: true)
+        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint)
         updateInsets()
 
         let offset = self.streamViewController.collectionView.contentOffset
