@@ -17,7 +17,7 @@ class CredentialsScreen: EmptyScreen {
     let scrollView = UIScrollView()
     var scrollViewWidthConstraint: Constraint!
     let backButton = UIButton()
-    let titleLabel = StyledLabel(style: .largeWhite)
+    let titleLabel = StyledLabel(style: .largeBoldWhite)
     let gradientLayer = StartupGradientLayer()
     let continueButton = StyledButton(style: .roundedGrayOutline)
     let continueBackground = UIView()
