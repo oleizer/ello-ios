@@ -140,10 +140,7 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
     }
 
     func isRootViewController() -> Bool {
-        if let viewControllers = navigationController?.viewControllers {
-            return (viewControllers[0] ) == self
-        }
-        return false
+        return navigationController?.viewControllers.first == self
     }
 }
 

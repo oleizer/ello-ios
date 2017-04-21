@@ -39,8 +39,7 @@ final class CategoryViewController: StreamableViewController {
     var userDidScroll: Bool = false
 
     var showBackButton: Bool {
-        guard let navigationController = navigationController else { return false }
-        return navigationController.viewControllers.first != self
+        return !isRootViewController()
     }
 
     init(slug: String, name: String? = nil) {
