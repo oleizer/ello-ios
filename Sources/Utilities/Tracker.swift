@@ -352,6 +352,10 @@ extension Tracker {
         track("promoCTA clicked", properties: ["category": categoryTitle])
     }
 
+    func badgeOpened(_ badgeName: String) {
+        track("badge learn more clicked", properties: ["badge": badgeName])
+    }
+
     func viewedImage(_ asset: Asset, post: Post) {
         track("Viewed Image", properties: ["asset_id": asset.id, "post_id": post.id])
     }

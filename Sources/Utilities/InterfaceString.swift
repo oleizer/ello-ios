@@ -132,6 +132,18 @@ struct InterfaceString {
         static let NoResultsBody: String = NSLocalizedString("Follow or mention them to help them get started!", comment: "")
         static let FeaturedIn: String = NSLocalizedString("Featured in", comment: "Featurd in label")
         static let TotalViews: String = NSLocalizedString("Views", comment: "Total views label")
+        static let Badges: String = NSLocalizedString("Badges", comment: "")
+    }
+
+    struct Badges {
+        static let Featured = NSLocalizedString("Featured", comment: "")
+        static let Community = NSLocalizedString("Community Profile", comment: "")
+        static let Experimental = NSLocalizedString("Experimental Group", comment: "")
+        static let Staff = NSLocalizedString("Ello Staff Member", comment: "")
+        static let StaffLink = NSLocalizedString("Meet the Staff", comment: "")
+        static let Spam = NSLocalizedString("Spam, Eggs, and Spam", comment: "")
+        static let Nsfw = NSLocalizedString("NSFW", comment: "")
+        static let LearnMore: String = NSLocalizedString("Learn More", comment: "")
     }
 
     struct Post {

@@ -399,19 +399,32 @@ extension ProfileViewController: ProfileHeaderResponder {
         else { return }
 
         let vc = ProfileCategoriesViewController(categories: categories)
-        vc.currentUser = currentUser
         vc.presentingVC = self
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = vc
-        present(vc, animated: true, completion: nil)
+        presentModal(vc)
     }
 
     func onBadgeTapped(_ badgeName: String) {
         guard let badge = ProfileBadge(rawValue: badgeName) else { return }
+
+        let vc = ProfileBadgeViewController(badge: badge)
+        vc.presentingVC = self
+        presentModal(vc)
+    }
+
+    private func presentModal(_ vc: BaseElloViewController) {
+        vc.currentUser = currentUser
+        // vc.presentingVC = self
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = vc as? UIViewControllerTransitioningDelegate
+        present(vc, animated: true, completion: nil)
     }
 
     func onMoreBadgesTapped() {
+        guard let user = self.user else { return }
+        let badgesViewController = BadgesViewController(user: user)
+        badgesViewController.currentUser = currentUser
+        navigationController?.pushViewController(badgesViewController, animated: true)
     }
 
     func onLovesTapped() {
