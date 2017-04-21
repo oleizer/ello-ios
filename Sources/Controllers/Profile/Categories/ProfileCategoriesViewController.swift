@@ -38,7 +38,7 @@ extension ProfileCategoriesViewController: UIViewControllerTransitioningDelegate
         guard presented == self
             else { return .none }
 
-        return ProfileCategoriesPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: .modalBackground())
+        return DarkModalPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: .modalBackground())
     }
 }
 
