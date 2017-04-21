@@ -44,7 +44,6 @@ final class ProfileViewController: StreamableViewController {
 
     var user: User?
     var headerItems: [StreamCellItem]?
-    var responseConfig: ResponseConfig?
     var userParam: String
     var coverImageHeightStart: CGFloat?
     let initialStreamKind: StreamKind
