@@ -20,6 +20,13 @@ class ProfileBadgesView: ProfileBaseView {
     fileprivate let moreBadgesButton = UIButton()
 
     override func bindActions() {
+        // the badgesContainer is "swallowing" tap events, but the entire badges area *other* than
+        // the badge icons should open the "all badges" view.
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(moreBadgesTapped))
+        recognizer.numberOfTapsRequired = 1
+        recognizer.numberOfTouchesRequired = 1
+        badgesContainer.addGestureRecognizer(recognizer)
+
         moreBadgesButton.addTarget(self, action: #selector(moreBadgesTapped), for: .touchUpInside)
     }
 
