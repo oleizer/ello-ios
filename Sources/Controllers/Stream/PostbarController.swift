@@ -203,7 +203,11 @@ class PostbarController: UIResponder, PostbarResponder {
             let post = self.postForIndexPath(indexPath)
         else { return }
 
-        cell.lovesControl.isUserInteractionEnabled = false
+        toggleLove(cell, post: post)
+    }
+
+    func toggleLove(_ cell: StreamFooterCell?, post: Post) {
+        cell?.lovesControl.isUserInteractionEnabled = false
 
         if post.loved { unlovePost(post, cell: cell) }
         else { lovePost(post, cell: cell) }

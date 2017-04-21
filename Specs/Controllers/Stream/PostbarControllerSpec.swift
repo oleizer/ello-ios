@@ -164,9 +164,10 @@ class PostbarControllerSpec: QuickSpec {
             }
 
             describe("loveButtonTapped(_:)") {
+                var post: Post!
 
-                let stubCellItems: (_ loved: Bool) -> Void = { loved in
-                    let post: Post = stub([
+                func stubCellItems(loved: Bool) {
+                    post = Post.stub([
                         "id": "post1",
                         "authorId" : "user1",
                         "lovesCount" : 5,
@@ -185,7 +186,7 @@ class PostbarControllerSpec: QuickSpec {
 
                 context("post has not been loved") {
                     it("loves the post") {
-                        stubCellItems(false)
+                        stubCellItems(loved: false)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         var lovesCount = 0
@@ -202,7 +203,7 @@ class PostbarControllerSpec: QuickSpec {
                     }
 
                     it("increases currentUser lovesCount") {
-                        stubCellItems(false)
+                        stubCellItems(loved: false)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         let prevLovesCount = currentUser.lovesCount!
@@ -219,7 +220,7 @@ class PostbarControllerSpec: QuickSpec {
 
                 context("post has already been loved") {
                     it("unloves the post") {
-                        stubCellItems(true)
+                        stubCellItems(loved: true)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         var lovesCount = 0
@@ -236,7 +237,7 @@ class PostbarControllerSpec: QuickSpec {
                     }
 
                     it("decreases currentUser lovesCount") {
-                        stubCellItems(true)
+                        stubCellItems(loved: true)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         let prevLovesCount = currentUser.lovesCount!
@@ -248,6 +249,38 @@ class PostbarControllerSpec: QuickSpec {
                         observer.removeObserver()
 
                         expect(lovesCount) == prevLovesCount - 1
+                    }
+                }
+
+                context("footer cell is not visible") {
+                    it("loves the post") {
+                        stubCellItems(loved: false)
+
+                        var lovesCount = 0
+                        var contentChange: ContentChange?
+                        let observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+                            lovesCount = post.lovesCount!
+                            contentChange = change
+                        }
+                        subject.toggleLove(nil, post: post)
+                        observer.removeObserver()
+
+                        expect(lovesCount) == 6
+                        expect(contentChange) == .loved
+                    }
+
+                    it("increases currentUser lovesCount") {
+                        stubCellItems(loved: false)
+
+                        let prevLovesCount = currentUser.lovesCount!
+                        var lovesCount = 0
+                        let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
+                            lovesCount = user.lovesCount!
+                        }
+                        subject.toggleLove(nil, post: post)
+                        observer.removeObserver()
+
+                        expect(lovesCount) == prevLovesCount + 1
                     }
                 }
             }
