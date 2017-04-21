@@ -117,13 +117,21 @@ final class ProfileViewController: StreamableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        let screen = ProfileScreen()
+        screen.delegate = self
+        screen.navigationItem = elloNavigationItem
+        screen.clipsToBounds = true
+        self.view = screen
+        viewContainer = screen.streamContainer
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if user == nil {
             screen.disableButtons()
         }
-        view.clipsToBounds = true
         setupNavigationItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
@@ -131,14 +139,6 @@ final class ProfileViewController: StreamableViewController {
         if let user = user {
             updateUser(user)
         }
-    }
-
-    override func loadView() {
-        let screen = ProfileScreen()
-        screen.delegate = self
-        screen.navigationItem = elloNavigationItem
-        self.view = screen
-        viewContainer = screen.streamContainer
     }
 
     override func viewDidLayoutSubviews() {

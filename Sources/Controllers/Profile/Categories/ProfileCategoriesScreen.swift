@@ -9,13 +9,14 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
     struct Size {
         static let textInset: CGFloat = 15
+        static let learnMoreSpacing: CGFloat = 20
     }
 
     weak var delegate: ProfileCategoriesDelegate?
+    let categories: [Category]
 
-    let background = UIView()
-    let textView = ElloTextView()
-    var categories: [Category]
+    fileprivate let textView = ElloTextView()
+    fileprivate let learnMoreButton = StyledButton(style: .grayUnderlined)
 
     init(categories: [Category]) {
         self.categories = categories
@@ -27,13 +28,11 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
     }
 
     required init(frame: CGRect) {
-        self.categories = []
-        super.init(frame: frame)
+        fatalError("use init(categories:)")
     }
 
     override func style() {
         backgroundColor = .clear
-        background.backgroundColor = .clear
         textView.backgroundColor = .clear
         textView.isEditable = false
         textView.allowsEditingTextAttributes = false
@@ -44,7 +43,7 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
     override func bindActions() {
         textView.textViewDelegate = self
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismiss))
-        background.addGestureRecognizer(gesture)
+        addGestureRecognizer(gesture)
     }
 
     override func setText() {
@@ -73,21 +72,24 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
         textView.attributedText = featuredIn
         textView.sizeToFit()
+
+        learnMoreButton.setTitle(InterfaceString.Badges.LearnMore, for: .normal)
     }
 
     override func arrange() {
         super.arrange()
 
-        addSubview(background)
         addSubview(textView)
-
-        background.snp.makeConstraints { make in
-            make.edges.equalTo(self)
-        }
+        addSubview(learnMoreButton)
 
         textView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(self).inset(Size.textInset)
-            make.centerX.centerY.equalTo(self)
+            make.centerY.equalTo(self)
+        }
+
+        learnMoreButton.snp.makeConstraints { make in
+            make.centerX.equalTo(self)
+            make.top.equalTo(textView.snp.bottom).offset(Size.learnMoreSpacing)
         }
     }
 

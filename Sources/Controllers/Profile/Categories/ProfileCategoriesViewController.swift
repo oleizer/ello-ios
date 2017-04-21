@@ -9,9 +9,6 @@ final class ProfileCategoriesViewController: BaseElloViewController {
     init(categories: [Category]) {
         super.init(nibName: nil, bundle: nil)
         self.categories = categories
-        modalTransitionStyle = .crossDissolve
-        modalPresentationStyle = .custom
-        transitioningDelegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,6 +40,10 @@ extension ProfileCategoriesViewController: UIViewControllerTransitioningDelegate
 }
 
 extension ProfileCategoriesViewController: ProfileCategoriesDelegate {
+
+    func learnMoreTapped() {
+        //
+    }
 
     func categoryTapped(_ category: Category) {
         Tracker.shared.categoryOpened(category.slug)
