@@ -69,8 +69,8 @@ class ProfileHeaderCompactView: ProfileHeaderLayoutView {
 
         totalCountView.snp.makeConstraints { make in
             make.top.equalTo(self.namesView.snp.bottom)
-            make.leading.equalTo(self)
-            totalCountFullConstraint = make.trailing.equalTo(self.snp.trailing).constraint
+            make.leading.equalTo(totalCountHorizontalGreyLine)
+            totalCountFullConstraint = make.trailing.equalTo(totalCountHorizontalGreyLine.snp.trailing).constraint
             totalCountHalfConstraint = make.trailing.equalTo(totalCountVerticalGreyLine.snp.leading).constraint
             totalCountHeightConstraint = make.height.equalTo(0).constraint
         }
@@ -91,7 +91,7 @@ class ProfileHeaderCompactView: ProfileHeaderLayoutView {
         badgesView.snp.makeConstraints { make in
             make.top.bottom.equalTo(totalCountView)
             make.leading.equalTo(totalCountVerticalGreyLine.snp.trailing)
-            make.trailing.equalTo(self)
+            make.trailing.equalTo(totalCountHorizontalGreyLine)
         }
 
         statsView.snp.makeConstraints { make in
