@@ -13,11 +13,11 @@ struct ElloAttributedString {
         }
     }
 
-    static func attrs(_ allAddlAttrs: [String: AnyObject]...) -> [String: AnyObject] {
+    static func attrs(_ allAddlAttrs: [String: Any]...) -> [String: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
 
-        var attrs: [String: AnyObject] = [
+        var attrs: [String: Any] = [
             NSParagraphStyleAttributeName: paragraphStyle,
             NSFontAttributeName: UIFont.defaultFont(),
             NSForegroundColorAttributeName: UIColor.black,
@@ -28,9 +28,9 @@ struct ElloAttributedString {
         return attrs
     }
 
-    static func linkAttrs() -> [String: AnyObject] {
+    static func linkAttrs() -> [String: Any] {
         return attrs([
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
         ])
     }
 
@@ -71,7 +71,7 @@ struct ElloAttributedString {
         return strings
     }
 
-    static func style(_ text: String, _ addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
+    static func style(_ text: String, _ addlAttrs: [String: Any] = [:]) -> NSAttributedString {
         return NSAttributedString(string: text, attributes: attrs(addlAttrs))
     }
 
@@ -124,40 +124,51 @@ struct ElloAttributedString {
         return output
     }
 
-    static func featuredIn(categories: [Category]) -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-
-        var featuredIn = NSAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: attrs([
-                NSParagraphStyleAttributeName: paragraphStyle
-            ]))
+    static func featuredIn(categories: [Category], attrs: [String: Any] = [:]) -> NSAttributedString {
+        let defaultAttributes = featuredInAttrs(attrs)
+        var featuredIn = NSAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: featuredInAttrs(defaultAttributes, attrs))
 
         let count = categories.count
         for (index, category) in categories.enumerated() {
             let prefix: NSAttributedString
             if index == count - 1 && count > 1 {
-                prefix = NSAttributedString(string: " & ", attributes: attrs())
+                prefix = NSAttributedString(string: " & ", attributes: defaultAttributes)
             }
             else if index > 0 {
-                prefix = NSAttributedString(string: ", ", attributes: attrs())
+                prefix = NSAttributedString(string: ", ", attributes: defaultAttributes)
             }
             else {
-                prefix = NSAttributedString(string: " ", attributes: attrs())
+                prefix = NSAttributedString(string: " ", attributes: defaultAttributes)
             }
             featuredIn = featuredIn.appending(prefix)
-                .appending(style(category: category))
+                .appending(style(category: category, attrs: attrs))
         }
 
         return featuredIn
     }
 
-    static func style(category: Category) -> NSAttributedString {
-        return NSAttributedString(string: category.name, attributes: attrs([
-            ElloAttributedText.Link: "category" as AnyObject,
-            ElloAttributedText.Object: category,
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
+    private static func featuredInAttrs(_ allAddlAttrs: [String: Any]...) -> [String: Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 6
+        paragraphStyle.alignment = .center
+
+        var attrs: [String: Any] = [
+            NSParagraphStyleAttributeName: paragraphStyle,
             NSFontAttributeName: UIFont.defaultFont(18),
             NSForegroundColorAttributeName: UIColor.white,
-        ]))
+        ]
+        for addlAttrs in allAddlAttrs {
+            attrs += addlAttrs
+        }
+
+        return attrs
+    }
+
+    private static func style(category: Category, attrs: [String: Any]) -> NSAttributedString {
+        return NSAttributedString(string: category.name, attributes: featuredInAttrs([
+            ElloAttributedText.Link: "category",
+            ElloAttributedText.Object: category,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
+        ], attrs))
     }
 }
