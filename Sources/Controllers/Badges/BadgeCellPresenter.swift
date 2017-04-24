@@ -33,6 +33,7 @@ struct BadgeCellPresenter {
         }
 
         cell.image = profileBadge.image.normalImage
+        cell.url = profileBadge.url
     }
 
 }

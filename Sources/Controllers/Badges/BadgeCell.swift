@@ -26,6 +26,7 @@ class BadgeCell: UICollectionViewCell {
         get { return imageView.image }
         set { imageView.image = newValue }
     }
+    var url: URL?
 
     fileprivate let label = ElloTextView()
     fileprivate let imageView = UIImageView()
@@ -46,6 +47,7 @@ class BadgeCell: UICollectionViewCell {
         super.prepareForReuse()
         label.text = ""
         imageView.image = nil
+        url = nil
     }
 
     fileprivate func style() {
@@ -99,6 +101,8 @@ extension BadgeCell: ElloTextViewDelegate {
     }
 
     func textViewTappedDefault() {
-        // no-op
+        if let url = url {
+            postNotification(ExternalWebNotification, value: url.absoluteString)
+        }
     }
 }
