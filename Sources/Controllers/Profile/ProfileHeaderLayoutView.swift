@@ -10,12 +10,35 @@ class ProfileHeaderLayoutView: ProfileBaseView {
         didSet {
             guard let calculatedCellHeights = calculatedCellHeights else { return }
 
-            if let avatarHeight = calculatedCellHeights.profileAvatar { avatarHeightConstraint.update(offset: avatarHeight) }
-            if let namesHeight = calculatedCellHeights.profileNames { namesHeightConstraint.update(offset: namesHeight) }
-            if let totalCountHeight = calculatedCellHeights.profileTotalCount { totalCountHeightConstraint.update(offset: totalCountHeight) }
-            if let bioHeight = calculatedCellHeights.profileBio { bioHeightConstraint.update(offset: bioHeight) }
-            if let locationHeight = calculatedCellHeights.profileLocation { locationHeightConstraint.update(offset: locationHeight) }
-            if let linksHeight = calculatedCellHeights.profileLinks { linksHeightConstraint.update(offset: linksHeight) }
+            if let avatarHeight = calculatedCellHeights.profileAvatar {
+                avatarHeightConstraint.update(offset: avatarHeight)
+            }
+
+            if let namesHeight = calculatedCellHeights.profileNames {
+                namesHeightConstraint.update(offset: namesHeight)
+            }
+
+            if let totalCountHeight = calculatedCellHeights.profileTotalCount,
+                let badgesHeight = calculatedCellHeights.profileBadges
+            {
+                totalCountHeightConstraint.update(offset: max(totalCountHeight, badgesHeight))
+            }
+            else if let totalCountHeight = calculatedCellHeights.profileTotalCount {
+                totalCountHeightConstraint.update(offset: totalCountHeight)
+            }
+
+            if let bioHeight = calculatedCellHeights.profileBio {
+                bioHeightConstraint.update(offset: bioHeight)
+            }
+
+            if let locationHeight = calculatedCellHeights.profileLocation {
+                locationHeightConstraint.update(offset: locationHeight)
+            }
+
+            if let linksHeight = calculatedCellHeights.profileLinks {
+                linksHeightConstraint.update(offset: linksHeight)
+            }
+
 
             let bioLinksOrLocationHaveContent = (calculatedCellHeights.profileBio ?? 0) > 0 || (calculatedCellHeights.profileLinks ?? 0) > 0 || (calculatedCellHeights.profileLocation ?? 0) > 0
             statsView.grayLineVisible = bioLinksOrLocationHaveContent
