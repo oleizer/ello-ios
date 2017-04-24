@@ -44,6 +44,7 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
         textView.textViewDelegate = self
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismiss))
         addGestureRecognizer(gesture)
+        learnMoreButton.addTarget(self, action: #selector(learnMoreTapped), for: .touchUpInside)
     }
 
     override func setText() {
@@ -72,6 +73,10 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
 
     func dismiss() {
         delegate?.dismiss()
+    }
+
+    func learnMoreTapped() {
+        delegate?.learnMoreTapped()
     }
 }
 

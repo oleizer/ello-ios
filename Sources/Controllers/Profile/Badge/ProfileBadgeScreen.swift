@@ -38,6 +38,7 @@ class ProfileBadgeScreen: Screen, ProfileBadgeScreenProtocol {
     override func bindActions() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismiss))
         addGestureRecognizer(gesture)
+        learnMoreButton.addTarget(self, action: #selector(learnMoreTapped), for: .touchUpInside)
     }
 
     override func setText() {
@@ -63,5 +64,9 @@ class ProfileBadgeScreen: Screen, ProfileBadgeScreenProtocol {
 
     func dismiss() {
         delegate?.dismiss()
+    }
+
+    func learnMoreTapped() {
+        delegate?.learnMoreTapped()
     }
 }
