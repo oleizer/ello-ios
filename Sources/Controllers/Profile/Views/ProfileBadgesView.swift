@@ -56,7 +56,12 @@ class ProfileBadgesView: ProfileBaseView {
             let button = UIButton()
             button.addTarget(self, action: #selector(badgeTapped(_:)), for: .touchUpInside)
             button.contentMode = .center
-            button.setImage(badge.image, imageStyle: .normal, for: .normal)
+            let svgkImage = badge.image.svgkImage!
+            if case .featured = badge {
+                svgkImage.size = CGSize(width: 27, height: 27)
+            }
+            let image = svgkImage.uiImage.withRenderingMode(.alwaysOriginal)
+            button.setImage(image, for: .normal)
             button.snp.makeConstraints { make in
                 make.size.equalTo(Size.badgeSize)
             }

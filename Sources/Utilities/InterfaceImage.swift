@@ -122,6 +122,27 @@ enum InterfaceImage: String {
         return SVGKImage(named: "\(name).svg").uiImage.withRenderingMode(.alwaysOriginal)
     }
 
+    var svgkImage: SVGKImage! {
+        switch self {
+        case .audioPlay,
+            .bubbleTail,
+            .buyButton,
+            .elloLogo,
+            .elloLogoGrey,
+            .elloGrayLineLogo,
+            .giantHeart,
+            .marker,
+            .narrationPointer,
+            .validationError,
+            .validationOK,
+            .smallCheck,
+            .videoPlay:
+            return SVGKImage(named: self.rawValue)
+        default:
+            return SVGKImage(named: "\(self.rawValue)_normal")
+        }
+    }
+
     var normalImage: UIImage! {
         switch self {
         case .audioPlay,
