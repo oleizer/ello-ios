@@ -66,7 +66,7 @@ final class User: JSONAble {
     // links
     var posts: [Post]? { return getLinkArray("posts") as? [Post] }
     var categories: [Category]? { return getLinkArray("categories") as? [Category] }
-    var badges: [ProfileBadge] = [.featured, .community, .staff]
+    var badges: [ProfileBadge] = []
 
     // computed
     var atName: String { return "@\(username)"}
