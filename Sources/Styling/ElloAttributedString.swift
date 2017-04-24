@@ -123,4 +123,41 @@ struct ElloAttributedString {
         }
         return output
     }
+
+    static func featuredIn(categories: [Category]) -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+
+        var featuredIn = NSAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: attrs([
+                NSParagraphStyleAttributeName: paragraphStyle
+            ]))
+
+        let count = categories.count
+        for (index, category) in categories.enumerated() {
+            let prefix: NSAttributedString
+            if index == count - 1 && count > 1 {
+                prefix = NSAttributedString(string: " & ", attributes: attrs())
+            }
+            else if index > 0 {
+                prefix = NSAttributedString(string: ", ", attributes: attrs())
+            }
+            else {
+                prefix = NSAttributedString(string: " ", attributes: attrs())
+            }
+            featuredIn = featuredIn.appending(prefix)
+                .appending(style(category: category))
+        }
+
+        return featuredIn
+    }
+
+    static func style(category: Category) -> NSAttributedString {
+        return NSAttributedString(string: category.name, attributes: attrs([
+            ElloAttributedText.Link: "category" as AnyObject,
+            ElloAttributedText.Object: category,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
+            NSFontAttributeName: UIFont.defaultFont(18),
+            NSForegroundColorAttributeName: UIColor.white,
+        ]))
+    }
 }

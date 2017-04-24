@@ -47,30 +47,7 @@ class ProfileCategoriesScreen: Screen, ProfileCategoriesProtocol {
     }
 
     override func setText() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-
-        var featuredIn = NSAttributedString(string: InterfaceString.Profile.FeaturedIn, attributes: attrs([
-                NSParagraphStyleAttributeName: paragraphStyle
-            ]))
-
-        let count = categories.count
-        for (index, category) in categories.enumerated() {
-            let prefix: NSAttributedString
-            if index == count - 1 && count > 1 {
-                prefix = NSAttributedString(string: " & ", attributes: attrs())
-            }
-            else if index > 0 {
-                prefix = NSAttributedString(string: ", ", attributes: attrs())
-            }
-            else {
-                prefix = NSAttributedString(string: " ", attributes: attrs())
-            }
-            featuredIn = featuredIn.appending(prefix)
-                .appending(styleCategory(category))
-        }
-
-        textView.attributedText = featuredIn
+        textView.attributedText = ElloAttributedString.featuredIn(categories: categories)
         textView.sizeToFit()
 
         learnMoreButton.setTitle(InterfaceString.Badges.LearnMore, for: .normal)
@@ -110,24 +87,5 @@ extension ProfileCategoriesScreen: ElloTextViewDelegate {
 
     func textViewTappedDefault() {
         // no-op
-    }
-}
-
-private extension ProfileCategoriesScreen {
-
-    func styleCategory(_ category: Category) -> NSAttributedString {
-        return NSAttributedString(string: category.name, attributes: attrs([
-            ElloAttributedText.Link: "category" as AnyObject,
-            ElloAttributedText.Object: category,
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
-        ]))
-    }
-
-    func attrs(_ addlAttrs: [String : AnyObject] = [:]) -> [String : AnyObject] {
-        let attrs: [String: AnyObject] = [
-            NSFontAttributeName: UIFont.defaultFont(18),
-            NSForegroundColorAttributeName: UIColor.white,
-        ]
-        return attrs + addlAttrs
     }
 }
