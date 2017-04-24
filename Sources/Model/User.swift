@@ -66,7 +66,11 @@ final class User: JSONAble {
     // links
     var posts: [Post]? { return getLinkArray("posts") as? [Post] }
     var categories: [Category]? { return getLinkArray("categories") as? [Category] }
-    var badges: [ProfileBadge] = []
+    private var _badges: [ProfileBadge]?
+    var badges: [ProfileBadge] {
+        get { return _badges ?? (categories?.count ?? 0 > 0 ? [.featured] : []) }
+        set { _badges = newValue }
+    }
 
     // computed
     var atName: String { return "@\(username)"}
@@ -148,7 +152,7 @@ final class User: JSONAble {
         }
 
         if let badgeNames: [String] = decoder.decodeOptionalKey("badges") {
-            self.badges = badgeNames.flatMap { ProfileBadge(rawValue: $0) }
+            self._badges = badgeNames.flatMap { ProfileBadge(rawValue: $0) }
         }
 
         // optional
