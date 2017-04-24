@@ -13,7 +13,7 @@ struct BadgeCellPresenter {
     {
         guard
             let cell = cell as? BadgeCell,
-            let badge = (streamCellItem.jsonable as? Badge)?.badge
+            let badge = streamCellItem.jsonable as? Badge
         else { return }
 
         cell.title = badge.name

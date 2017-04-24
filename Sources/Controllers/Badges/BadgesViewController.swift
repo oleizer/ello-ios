@@ -41,7 +41,7 @@ class BadgesViewController: StreamableViewController, BadgesScreenDelegate {
         streamViewController.pagingEnabled = false
 
         let items: [StreamCellItem] = user.badges.map { badge in
-            let badgeJSONAble = Badge(badge: badge)
+            let badgeJSONAble = Badge(profileBadge: badge, categories: user.categories)
             let item = StreamCellItem(jsonable: badgeJSONAble, type: .badge)
             return item
         }

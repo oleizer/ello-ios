@@ -10,18 +10,37 @@ let BadgeVersion: Int = 1
 
 @objc
 final class Badge: JSONAble {
-    let badge: ProfileBadge
+    let profileBadge: ProfileBadge
+    let categories: [Category]?
 
-    init(badge: ProfileBadge) {
-        self.badge = badge
+    init(profileBadge: ProfileBadge, categories: [Category]?) {
+        self.profileBadge = profileBadge
+        self.categories = categories
         super.init(version: BadgeVersion)
+    }
+
+    var name: String {
+        switch profileBadge {
+        case .featured:
+            if let categories = categories {
+                return ElloAttributedString.featuredIn(categories: categories).string
+            }
+            else {
+                return profileBadge.name
+            }
+        default:
+            return profileBadge.name
+        }
+    }
+
+    var image: InterfaceImage {
+        return profileBadge.image
     }
 
 // MARK: NSCoding
 
     required init(coder aDecoder: NSCoder) {
-        self.badge = .featured
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) not implemented")
     }
 
     override func encode(with encoder: NSCoder) {
