@@ -68,7 +68,12 @@ final class User: JSONAble {
     var categories: [Category]? { return getLinkArray("categories") as? [Category] }
     private var _badges: [ProfileBadge]?
     var badges: [ProfileBadge] {
-        get { return _badges ?? (categories?.count ?? 0 > 0 ? [.featured] : []) }
+        get {
+            guard let badges = _badges, badges.count > 0 else {
+                return (categories?.count ?? 0) > 0 ? [.featured] : []
+            }
+            return badges
+        }
         set { _badges = newValue }
     }
 
