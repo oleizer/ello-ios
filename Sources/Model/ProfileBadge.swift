@@ -38,14 +38,10 @@ enum ProfileBadge: String {
 
     var url: URL? {
         switch self {
-        case .featured:
-            return URL(string: "https://ello.co/wtf/help/featured-users/")
-        case .community:
-            return URL(string: "https://ello.co/wtf/resources/community-directory/")
-        case .staff:
-            return URL(string: "https://ello.co/wtf/about/the-people-of-ello/")
-        default:
+        case .spam, .nsfw:
             return nil
+        default:
+            return URL(string: "https://ello.co/wtf/help/badges/")
         }
     }
 
