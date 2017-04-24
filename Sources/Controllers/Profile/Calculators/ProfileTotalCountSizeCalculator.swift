@@ -6,9 +6,9 @@ import FutureKit
 
 
 struct ProfileTotalCountSizeCalculator {
-    let promise = Promise<CGFloat>()
 
     func calculate(_ item: StreamCellItem) -> Future<CGFloat> {
+        let promise = Promise<CGFloat>()
         guard
             let user = item.jsonable as? User,
             let count = user.totalViewsCount,
@@ -22,5 +22,3 @@ struct ProfileTotalCountSizeCalculator {
         return promise.future
     }
 }
-
-private extension ProfileTotalCountSizeCalculator {}

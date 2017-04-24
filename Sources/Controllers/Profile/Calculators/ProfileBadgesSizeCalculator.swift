@@ -6,9 +6,9 @@ import FutureKit
 
 
 struct ProfileBadgesSizeCalculator {
-    let promise = Promise<CGFloat>()
 
     func calculate(_ item: StreamCellItem) -> Future<CGFloat> {
+        let promise = Promise<CGFloat>()
         guard
             let user = item.jsonable as? User,
             user.badges.count > 0
@@ -21,5 +21,3 @@ struct ProfileBadgesSizeCalculator {
         return promise.future
     }
 }
-
-private extension ProfileBadgesSizeCalculator {}

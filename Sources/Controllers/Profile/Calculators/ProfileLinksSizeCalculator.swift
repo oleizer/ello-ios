@@ -53,5 +53,3 @@ struct ProfileLinksSizeCalculator {
         return (perRow, iconsBoxWidth)
     }
 }
-
-private extension ProfileLinksSizeCalculator {}

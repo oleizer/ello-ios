@@ -13,5 +13,3 @@ struct ProfileStatsSizeCalculator {
         return promise.future
     }
 }
-
-private extension ProfileStatsSizeCalculator {}
