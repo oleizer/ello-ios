@@ -1114,6 +1114,12 @@ extension StreamViewController: UICollectionViewDelegate {
                 userTapped(user: user)
             }
         }
+        else if tappedCell is BadgeCell,
+            let badge = dataSource.jsonableForIndexPath(indexPath) as? Badge,
+            let url = badge.profileBadge.url
+        {
+            postNotification(ExternalWebNotification, value: url.absoluteString)
+        }
         else if tappedCell is StreamSeeMoreCommentsCell {
             if let lastComment = dataSource.commentForIndexPath(indexPath),
                 let post = lastComment.loadedFromPost,

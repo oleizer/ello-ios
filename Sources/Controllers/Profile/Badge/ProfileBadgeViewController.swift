@@ -4,7 +4,6 @@
 
 final class ProfileBadgeViewController: BaseElloViewController {
 
-    var presentingVC: UIViewController?
     let badge: ProfileBadge
 
     init(badge: ProfileBadge) {
@@ -43,10 +42,12 @@ extension ProfileBadgeViewController: UIViewControllerTransitioningDelegate {
 extension ProfileBadgeViewController: ProfileBadgeScreenDelegate {
 
     func learnMoreTapped() {
-        Tracker.shared.badgeOpened(badge.rawValue)
-        // let presentingVC = self.presentingVC
+        let badge = self.badge
+        Tracker.shared.badgeLearnMore(badge.rawValue)
         self.dismiss(animated: true) {
-            // presentingVC?.navigationController?.pushViewController(vc, animated: true)
+            if let url = badge.url {
+                postNotification(ExternalWebNotification, value: url.absoluteString)
+            }
         }
     }
 

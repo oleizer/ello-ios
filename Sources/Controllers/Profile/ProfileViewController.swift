@@ -398,6 +398,7 @@ extension ProfileViewController: ProfileHeaderResponder {
             count > 0
         else { return }
 
+        Tracker.shared.badgeOpened(ProfileBadge.featured.rawValue)
         let vc = ProfileCategoriesViewController(categories: categories)
         vc.presentingVC = self
         presentModal(vc)
@@ -406,8 +407,8 @@ extension ProfileViewController: ProfileHeaderResponder {
     func onBadgeTapped(_ badgeName: String) {
         guard let badge = ProfileBadge(rawValue: badgeName) else { return }
 
+        Tracker.shared.badgeOpened(badge.rawValue)
         let vc = ProfileBadgeViewController(badge: badge)
-        vc.presentingVC = self
         presentModal(vc)
     }
 

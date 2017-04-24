@@ -163,6 +163,7 @@ enum StreamCellType: Equatable {
     var selectable: Bool {
         switch self {
         case .announcement,
+             .badge,
              .categoryCard,
              .createComment,
              .header,

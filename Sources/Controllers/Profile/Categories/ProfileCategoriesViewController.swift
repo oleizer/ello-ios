@@ -42,7 +42,14 @@ extension ProfileCategoriesViewController: UIViewControllerTransitioningDelegate
 extension ProfileCategoriesViewController: ProfileCategoriesDelegate {
 
     func learnMoreTapped() {
-        //
+        let badge = ProfileBadge.featured
+        Tracker.shared.badgeLearnMore(badge.rawValue)
+
+        self.dismiss(animated: true) {
+            if let url = badge.url {
+                postNotification(ExternalWebNotification, value: url.absoluteString)
+            }
+        }
     }
 
     func categoryTapped(_ category: Category) {
