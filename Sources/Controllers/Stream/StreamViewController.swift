@@ -45,6 +45,7 @@ protocol StreamViewDelegate: class {
 @objc
 protocol CategoryResponder: class {
     func categoryCellTapped(cell: UICollectionViewCell)
+    func categoryTapped(_ category: Category)
 }
 
 @objc
@@ -979,10 +980,6 @@ extension StreamViewController: StreamPostTappedResponder {
 // MARK: StreamViewController: Open category
 extension StreamViewController {
 
-    func categoryTapped(_ category: Category) {
-        showCategoryViewController(slug: category.slug, name: category.name)
-    }
-
     func showCategoryViewController(slug: String, name: String) {
         Tracker.shared.categoryOpened(slug)
         let vc = CategoryViewController(slug: slug, name: name)
@@ -993,6 +990,10 @@ extension StreamViewController {
 
 // MARK: StreamViewController: CategoryResponder
 extension StreamViewController: CategoryResponder {
+
+    func categoryTapped(_ category: Category) {
+        showCategoryViewController(slug: category.slug, name: category.name)
+    }
 
     func categoryCellTapped(cell: UICollectionViewCell) {
         guard

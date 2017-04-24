@@ -14,16 +14,20 @@ class BadgeCell: UICollectionViewCell {
         static let labelMargin: CGFloat = 20
     }
 
-    var title: String {
+    var title: String? {
         set { label.text = newValue }
-        get { return label.text ?? "" }
+        get { return label.text }
+    }
+    var attributedTitle: NSAttributedString? {
+        set { label.attributedText = newValue }
+        get { return label.attributedText }
     }
     var image: UIImage? {
         get { return imageView.image }
         set { imageView.image = newValue }
     }
 
-    fileprivate let label = StyledLabel(style: .black)
+    fileprivate let label = ElloTextView()
     fileprivate let imageView = UIImageView()
     fileprivate let grayLine = UIImageView()
 
@@ -45,6 +49,12 @@ class BadgeCell: UICollectionViewCell {
     }
 
     fileprivate func style() {
+        label.textViewDelegate = self
+        label.backgroundColor = .clear
+        label.isEditable = false
+        label.allowsEditingTextAttributes = false
+        label.isSelectable = false
+        label.textColor = .black
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         grayLine.backgroundColor = .greyE5()
@@ -57,10 +67,12 @@ class BadgeCell: UICollectionViewCell {
 
         imageView.snp.makeConstraints { make in
             make.leading.top.bottom.equalTo(contentView).inset(Size.imageInsets)
+            imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         }
         label.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.leading.equalTo(imageView.snp.trailing).offset(Size.labelMargin)
+            make.trailing.lessThanOrEqualTo(contentView)
         }
         grayLine.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(contentView).inset(Size.grayInsets)
@@ -72,5 +84,21 @@ class BadgeCell: UICollectionViewCell {
         super.layoutSubviews()
 
         imageView.layer.cornerRadius = max(imageView.frame.width / 2, imageView.frame.height / 2)
+    }
+}
+
+extension BadgeCell: ElloTextViewDelegate {
+
+    func textViewTapped(_ link: String, object: ElloAttributedObject) {
+        switch object {
+        case let .attributedCategory(category):
+            let responder = target(forAction: #selector(CategoryResponder.categoryTapped(_:)), withSender: self) as? CategoryResponder
+            responder?.categoryTapped(category)
+        default: break
+        }
+    }
+
+    func textViewTappedDefault() {
+        // no-op
     }
 }

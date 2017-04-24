@@ -2,6 +2,8 @@
 ///  ElloAttributedString.swift
 //
 
+let ParagraphAlignmentAttributeName = "ParagraphAlignmentAttributeName"
+
 struct ElloAttributedString {
     fileprivate struct HtmlTagTuple {
         let tag: String
@@ -159,6 +161,12 @@ struct ElloAttributedString {
         ]
         for addlAttrs in allAddlAttrs {
             attrs += addlAttrs
+        }
+
+        if let alignmentInt = attrs[ParagraphAlignmentAttributeName] as? Int,
+            let alignment = NSTextAlignment(rawValue: alignmentInt)
+        {
+            paragraphStyle.alignment = alignment
         }
 
         return attrs

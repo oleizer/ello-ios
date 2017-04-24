@@ -16,8 +16,23 @@ struct BadgeCellPresenter {
             let badge = streamCellItem.jsonable as? Badge
         else { return }
 
-        cell.title = badge.name
-        cell.image = badge.image.normalImage
+        let profileBadge = badge.profileBadge
+        if case .featured = profileBadge,
+            let categories = badge.categories
+        {
+            let title = ElloAttributedString.featuredIn(categories: categories, attrs: [
+                ParagraphAlignmentAttributeName: NSTextAlignment.left.rawValue,
+                NSFontAttributeName: UIFont.defaultFont(),
+                NSForegroundColorAttributeName: UIColor.black,
+                ])
+            cell.attributedTitle = title
+        }
+        else {
+            let title = profileBadge.name
+            cell.title = title
+        }
+
+        cell.image = profileBadge.image.normalImage
     }
 
 }
