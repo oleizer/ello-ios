@@ -3,6 +3,9 @@
 //
 
 class BadgesViewController: StreamableViewController, BadgesScreenDelegate {
+    override func trackerName() -> String? { return "Badges" }
+    override func trackerProps() -> [String: AnyObject]? { return ["user_id": user.id as AnyObject] }
+
     let user: User
 
     var _mockScreen: BadgesScreenProtocol?
