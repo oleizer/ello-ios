@@ -352,12 +352,12 @@ extension Tracker {
         track("promoCTA clicked", properties: ["category": categoryTitle])
     }
 
-    func badgeOpened(_ badgeName: String) {
-        track("badge opened", properties: ["badge": badgeName])
+    func badgeOpened(_ badgeSlug: String) {
+        track("badge opened", properties: ["badge": badgeSlug])
     }
 
-    func badgeLearnMore(_ badgeName: String) {
-        track("badge learn more clicked", properties: ["badge": badgeName])
+    func badgeLearnMore(_ badgeSlug: String) {
+        track("badge learn more clicked", properties: ["badge": badgeSlug])
     }
 
     func viewedImage(_ asset: Asset, post: Post) {
