@@ -548,6 +548,7 @@
 		1D4042CA1E0997DD00E4E74D /* SnapKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4042C91E0997DD00E4E74D /* SnapKitExtensions.swift */; };
 		1D405D9C1C47166D0059DAFD /* repost_disabled.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D405D9B1C47166D0059DAFD /* repost_disabled.svg */; };
 		1D4168B61B6C222D0075C8F3 /* TagSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4168B51B6C222D0075C8F3 /* TagSpec.swift */; };
+		1D44EAFC1EB2A337003B9B3D /* BadgesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44EAFB1EB2A337003B9B3D /* BadgesService.swift */; };
 		1D44F80C1B629606007E2DE4 /* StreamCellItemParserExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44F80B1B629606007E2DE4 /* StreamCellItemParserExt.swift */; };
 		1D45E5731D05F17500AAB730 /* BlockUserModalScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D45E5721D05F17500AAB730 /* BlockUserModalScreen.swift */; };
 		1D472C231C1F2E0400B61E55 /* embetter_audio_play.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1D472C211C1F2E0400B61E55 /* embetter_audio_play.svg */; };
@@ -1567,6 +1568,7 @@
 		1D4042C91E0997DD00E4E74D /* SnapKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapKitExtensions.swift; sourceTree = "<group>"; };
 		1D405D9B1C47166D0059DAFD /* repost_disabled.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = repost_disabled.svg; sourceTree = "<group>"; };
 		1D4168B51B6C222D0075C8F3 /* TagSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagSpec.swift; sourceTree = "<group>"; };
+		1D44EAFB1EB2A337003B9B3D /* BadgesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesService.swift; sourceTree = "<group>"; };
 		1D44F80B1B629606007E2DE4 /* StreamCellItemParserExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCellItemParserExt.swift; sourceTree = "<group>"; };
 		1D45E5721D05F17500AAB730 /* BlockUserModalScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BlockUserModalScreen.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1D472C211C1F2E0400B61E55 /* embetter_audio_play.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = embetter_audio_play.svg; sourceTree = "<group>"; };
@@ -2168,6 +2170,7 @@
 				1207C94E1C73FEE000939ADB /* AuthToken.swift */,
 				1207C94F1C73FEE000939ADB /* AutoCompleteService.swift */,
 				1207C9501C73FEE000939ADB /* AvailabilityService.swift */,
+				1D44EAFB1EB2A337003B9B3D /* BadgesService.swift */,
 				1D2B50BC1D2C2FC000F6CE90 /* CategoryService.swift */,
 				1207C9511C73FEE000939ADB /* ContentFlaggingService.swift */,
 				1207C9521C73FEE000939ADB /* CredentialsAuthService.swift */,
@@ -5281,6 +5284,7 @@
 				1D7152E51D7620D2005998FE /* CreateProfileScreen.swift in Sources */,
 				123DEBEB1D3D409C007B5F86 /* ProfileGenerator.swift in Sources */,
 				1D273A361D08A480009FD393 /* BlockUserModalConfig.swift in Sources */,
+				1D44EAFC1EB2A337003B9B3D /* BadgesService.swift in Sources */,
 				1DA18DF51DA8471F000231CC /* ProfileNamesPresenter.swift in Sources */,
 				123375851DA6ECEC0019CFAD /* ProfileBaseView.swift in Sources */,
 				1DFC26A91AF297150051D491 /* NSErrorExtensions.swift in Sources */,
