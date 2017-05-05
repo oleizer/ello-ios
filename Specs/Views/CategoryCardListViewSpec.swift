@@ -35,7 +35,7 @@ class CategoryCardListViewSpec: QuickSpec {
 
         describe("CategoryCardListView") {
             it("should have a valid snapshot") {
-                expectValidSnapshot(subject, named: "CategoryCardListView", device: .custom(subject.frame.size))
+                expectValidSnapshot(subject, named: "CategoryCardListView")
             }
 
             describe("CategoryCardListDelegate") {

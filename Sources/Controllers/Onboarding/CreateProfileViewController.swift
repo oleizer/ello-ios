@@ -3,8 +3,12 @@
 //
 
 class CreateProfileViewController: UIViewController, HasAppController {
-    var mockScreen: CreateProfileScreenProtocol?
-    var screen: CreateProfileScreenProtocol { return mockScreen ?? (self.view as! CreateProfileScreenProtocol) }
+    private var _mockScreen: CreateProfileScreenProtocol?
+    var screen: CreateProfileScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! CreateProfileScreen) }
+    }
+
     var currentUser: User?
 
     var appViewController: AppViewController? {

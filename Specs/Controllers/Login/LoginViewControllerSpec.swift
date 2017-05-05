@@ -44,7 +44,7 @@ class LoginViewControllerSpec: QuickSpec {
             beforeEach {
                 subject = LoginViewController()
                 mockScreen = MockScreen()
-                subject.mockScreen = mockScreen
+                subject.screen = mockScreen
                 showController(subject)
             }
 
@@ -117,4 +117,3 @@ class LoginViewControllerSpec: QuickSpec {
         }
     }
 }
-

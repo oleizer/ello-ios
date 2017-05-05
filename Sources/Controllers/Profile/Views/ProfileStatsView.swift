@@ -167,25 +167,21 @@ extension ProfileStatsView {
 
     func followingButtonTapped() {
         guard followingEnabled else { return }
-        guard let cell: UICollectionViewCell = self.findParentView() else { return }
 
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onFollowingTapped(_:)), withSender: self) as? ProfileHeaderResponder
-        responder?.onFollowingTapped(cell)
+        let responder = target(forAction: #selector(ProfileHeaderResponder.onFollowingTapped), withSender: self) as? ProfileHeaderResponder
+        responder?.onFollowingTapped()
     }
 
     func followersButtonTapped() {
         guard followersEnabled else { return }
-        guard let cell: UICollectionViewCell = self.findParentView() else { return }
 
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onFollowersTapped(_:)), withSender: self) as? ProfileHeaderResponder
-        responder?.onFollowersTapped(cell)
+        let responder = target(forAction: #selector(ProfileHeaderResponder.onFollowersTapped), withSender: self) as? ProfileHeaderResponder
+        responder?.onFollowersTapped()
     }
 
     func lovesButtonTapped() {
-        guard let cell: UICollectionViewCell = self.findParentView() else { return }
-
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onLovesTapped(_:)), withSender: self) as? ProfileHeaderResponder
-        responder?.onLovesTapped(cell)
+        let responder = target(forAction: #selector(ProfileHeaderResponder.onLovesTapped), withSender: self) as? ProfileHeaderResponder
+        responder?.onLovesTapped()
     }
 }
 
@@ -203,5 +199,3 @@ extension ProfileStatsView {
         }
     }
 }
-
-extension ProfileStatsView: ProfileViewProtocol {}

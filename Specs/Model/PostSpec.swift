@@ -292,4 +292,3 @@ class PostSpec: QuickSpec {
         }
     }
 }
-

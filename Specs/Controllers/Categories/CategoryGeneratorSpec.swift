@@ -157,4 +157,3 @@ class CategoryDestination: CategoryStreamDestination {
         self.responseConfig = responseConfig
     }
 }
-

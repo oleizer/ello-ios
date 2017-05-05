@@ -114,6 +114,7 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
     }
 
     @IBOutlet weak var nameTextFieldView: ElloTextFieldView!
+    @IBOutlet weak var bioLabel: UILabel!
     @IBOutlet weak var bioTextView: ElloEditableTextView!
     @IBOutlet weak var bioTextCountLabel: StyledLabel!
     @IBOutlet weak var bioTextStatusImage: UIImageView!
@@ -245,6 +246,13 @@ class SettingsViewController: UITableViewController, ControllerThatMightHaveTheC
         }
         else if let imageURL = currentUser?.avatar?.large?.url {
             avatarImage.pin_setImage(from: imageURL as URL!)
+        }
+
+        if currentUser?.profile?.isCommunity == true {
+            bioLabel.text = InterfaceString.Settings.CommunityInfo
+        }
+        else {
+            bioLabel.text = InterfaceString.Settings.Bio
         }
 
         bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")

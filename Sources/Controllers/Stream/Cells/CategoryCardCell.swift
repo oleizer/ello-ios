@@ -4,6 +4,7 @@
 
 import SnapKit
 
+
 class CategoryCardCell: UICollectionViewCell {
     static let reuseIdentifier = "CategoryCardCell"
     static let selectableReuseIdentifier = "SelectableCategoryCardCell"

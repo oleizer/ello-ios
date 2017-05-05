@@ -15,6 +15,7 @@ protocol KeychainType {
     var username: String? { get set }
     var password: String? { get set }
     var isStaff: Bool? { get set }
+    var isNabaroo: Bool? { get set }
 }
 
 private let PushToken = "ElloPushToken"
@@ -25,6 +26,7 @@ private let AuthTokenAuthenticated = "ElloAuthTokenAuthenticated"
 private let AuthUsername = "ElloAuthUsername"
 private let AuthPassword = "ElloAuthPassword"
 private let AuthIsStaff = "ElloAuthIsStaff"
+private let AuthIsNabaroo = "ElloAuthIsNabaroo"
 
 struct ElloKeychain: KeychainType {
     var keychain: Keychain
@@ -65,57 +67,30 @@ struct ElloKeychain: KeychainType {
     }
 
     var isPasswordBased: Bool? {
-        get {
-            if let tryData = try? keychain.getData(AuthTokenAuthenticated),
-                let data = tryData,
-                let number = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSNumber
-            {
-                return number.boolValue
-            }
-            return nil
-        }
-        set {
-            do {
-                if let newValue = newValue {
-                    let boolAsNumber = NSNumber(value: newValue as Bool)
-                    let data = NSKeyedArchiver.archivedData(withRootObject: boolAsNumber)
-                    try keychain.set(data, key: AuthTokenAuthenticated)
-                }
-                else {
-                    try keychain.remove(AuthTokenAuthenticated)
-                }
-            }
-            catch {
-                print("Unable to save is password based")
-            }
-        }
+        get { return keychain[data: AuthTokenAuthenticated]?.toBool() }
+        set { keychain[data: AuthTokenAuthenticated] = newValue?.toData() }
     }
 
     var isStaff: Bool? {
-        get {
-            if let tryData = try? keychain.getData(AuthIsStaff),
-                let data = tryData,
-                let number = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSNumber
-            {
-                return number.boolValue
-            }
-            return nil
-        }
-        set {
-            do {
-                if let newValue = newValue {
-                    let boolAsNumber = NSNumber(value: newValue as Bool)
-                    let data = NSKeyedArchiver.archivedData(withRootObject: boolAsNumber)
-                    try keychain.set(data, key: AuthIsStaff)
-                }
-                else {
-                    try keychain.remove(AuthIsStaff)
-                }
-            }
-            catch {
-                print("Unable to save is staff")
-            }
-        }
+        get { return keychain[data: AuthIsStaff]?.toBool() }
+        set { keychain[data: AuthIsNabaroo] = newValue?.toData() }
+    }
+
+    var isNabaroo: Bool? {
+        get { return keychain[data: AuthIsNabaroo]?.toBool() }
+        set { keychain[data: AuthIsNabaroo] = newValue?.toData() }
+    }
+}
+
+extension Data {
+    func toBool() -> Bool? {
+        return (NSKeyedUnarchiver.unarchiveObject(with: self) as? NSNumber)?.boolValue
+    }
+}
+
+extension Bool {
+    func toData() -> Data {
+        return NSKeyedArchiver.archivedData(withRootObject: NSNumber(value: self))
     }
 }
 

@@ -22,7 +22,6 @@ struct Preloader {
             {
                 preloadUrl(avatarURL as URL)
             }
-
             // post / comment avatars
             else if let authorable = jsonable as? Authorable,
                 let author = authorable.author,
@@ -30,22 +29,11 @@ struct Preloader {
             {
                 preloadUrl(avatarURL as URL)
             }
-
             // user's posts avatars
             else if let user = jsonable as? User,
-                let posts = user.posts
+                let userAvatarURL = user.avatarURL()
             {
-                if let userAvatarURL = user.avatarURL() {
-                    preloadUrl(userAvatarURL as URL)
-                }
-
-                for post in posts {
-                    if let author = post.author,
-                        let avatarURL = author.avatarURL()
-                    {
-                        preloadUrl(avatarURL as URL)
-                    }
-                }
+                preloadUrl(userAvatarURL as URL)
             }
 
             // activity image regions
@@ -54,33 +42,26 @@ struct Preloader {
             {
                 preloadImagesinPost(post)
             }
-
             // post image regions
             else if let post = jsonable as? Post {
                 preloadImagesinPost(post)
             }
-
             // comment image regions
             else if let comment = jsonable as? ElloComment {
                 preloadImagesInRegions(comment.content)
             }
-
             // user's posts image regions
             else if let user = jsonable as? User,
                 let posts = user.posts
             {
-                for post in posts {
-                    preloadImagesinPost(post)
-                }
+                preloadImages(posts)
             }
-
             // categories
             else if let category = jsonable as? Category,
                 let url = category.tileURL
             {
                 preloadUrl(url as URL)
             }
-
             // promotionals
             else if let promotional = jsonable as? PagePromotional,
                 let url = promotional.tileURL

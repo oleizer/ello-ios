@@ -7,13 +7,15 @@ import FutureKit
 
 class ProfileBioSizeCalculator: NSObject {
     let webView = UIWebView()
-    let promise = Promise<CGFloat>()
+    var promise: Promise<CGFloat>!
 
     deinit {
         webView.delegate = nil
     }
 
     func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
+        promise = Promise<CGFloat>()
+
         guard
             let user = item.jsonable as? User,
             let formattedShortBio = user.formattedShortBio, !formattedShortBio.isEmpty
@@ -50,5 +52,3 @@ extension ProfileBioSizeCalculator: UIWebViewDelegate {
     }
 
 }
-
-private extension ProfileBioSizeCalculator {}

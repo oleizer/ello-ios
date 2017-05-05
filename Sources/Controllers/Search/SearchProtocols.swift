@@ -17,7 +17,7 @@ protocol SearchScreenProtocol: StreamableScreenProtocol {
     var isGridView: Bool { get set }
     var delegate: SearchScreenDelegate? { get set }
     var showsFindFriends: Bool { get set }
-    var searchControlsContainer: UIView { get }
+    var topInsetView: UIView { get }
     func showNavBars()
     func hideNavBars()
     func searchFor(_ text: String)

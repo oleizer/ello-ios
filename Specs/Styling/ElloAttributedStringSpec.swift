@@ -131,7 +131,29 @@ class ElloAttributedStringSpec: QuickSpec {
                     expect(output) == spec.output
                 }
             }
+        }
 
+        describe("featuredIn(categories:)") {
+            it("should render one category") {
+                let categories = [Category.featured]
+                let subject = ElloAttributedString.featuredIn(categories: categories)
+                expect(subject.string) == "Featured in Featured"
+            }
+            it("should accept attrs") {
+                let categories = [Category.featured]
+                let subject = ElloAttributedString.featuredIn(categories: categories, attrs: ["some": "thing"])
+                expect(subject.attributes(at: 0, effectiveRange: nil)["some"] as? String) == "thing"
+            }
+            it("should render two categories") {
+                let categories = [Category.featured, Category.trending]
+                let subject = ElloAttributedString.featuredIn(categories: categories)
+                expect(subject.string) == "Featured in Featured & Trending"
+            }
+            it("should render three categories") {
+                let categories = [Category.featured, Category.trending, Category.recent]
+                let subject = ElloAttributedString.featuredIn(categories: categories)
+                expect(subject.string) == "Featured in Featured, Trending & Recent"
+            }
         }
     }
 }

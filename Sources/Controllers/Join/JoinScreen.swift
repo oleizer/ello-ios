@@ -272,6 +272,7 @@ extension JoinScreen {
     }
 
     func termsAction() {
+        Tracker.shared.tappedTsAndCs()
         delegate?.termsAction()
     }
 

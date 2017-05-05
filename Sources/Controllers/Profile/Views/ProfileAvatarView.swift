@@ -7,11 +7,6 @@ class ProfileAvatarView: ProfileBaseView {
     struct Size {
         static let avatarSize: CGFloat = 180
         static let whiteBarHeight: CGFloat = 60
-
-        static let badgeMarginTop: CGFloat = 8
-        static let badgeMarginTrailing: CGFloat = -3
-        static let badgeWidth: CGFloat = 44
-        static let badgeHeight: CGFloat = 44
     }
 
     var avatarImage: UIImage? {
@@ -30,14 +25,6 @@ class ProfileAvatarView: ProfileBaseView {
         }
     }
 
-    // temporarily move badge button here. Remove once Total Views is available
-    fileprivate let badgeButton = UIButton()
-
-    var badgeVisible: Bool {
-        set { badgeButton.isHidden = !newValue }
-        get { return !badgeButton.isHidden }
-    }
-
     fileprivate let avatarImageView = FLAnimatedImageView()
     fileprivate let whiteBar = UIView()
     fileprivate var _avatarURL: URL?
@@ -53,11 +40,6 @@ extension ProfileAvatarView {
         avatarImageView.clipsToBounds = true
         avatarImageView.contentMode = .scaleAspectFill
         whiteBar.backgroundColor = .white
-        badgeButton.setImages(.badgeCheck)
-    }
-
-    override func bindActions() {
-        badgeButton.addTarget(self, action: #selector(badgeTapped), for: .touchUpInside)
     }
 
     override func setText() {}
@@ -67,7 +49,6 @@ extension ProfileAvatarView {
 
         addSubview(whiteBar)
         addSubview(avatarImageView)
-        addSubview(badgeButton)
 
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(Size.avatarSize)
@@ -79,13 +60,6 @@ extension ProfileAvatarView {
             make.leading.trailing.equalTo(self)
             make.height.equalTo(Size.whiteBarHeight)
             make.bottom.equalTo(self.snp.bottom)
-        }
-
-        badgeButton.snp.makeConstraints { make in
-            make.top.equalTo(whiteBar.snp.top).offset(Size.badgeMarginTop)
-            make.trailing.equalTo(self).inset(Size.badgeMarginTrailing)
-            make.width.equalTo(Size.badgeWidth)
-            make.width.equalTo(Size.badgeWidth)
         }
     }
 
@@ -105,14 +79,3 @@ extension ProfileAvatarView {
         _avatarURL = nil
     }
 }
-extension ProfileAvatarView {
-
-    func badgeTapped() {
-        guard let cell: UICollectionViewCell = self.findParentView() else { return }
-
-        let responder = target(forAction: #selector(ProfileHeaderResponder.onCategoryBadgeTapped(_:)), withSender: self) as? ProfileHeaderResponder
-        responder?.onCategoryBadgeTapped(cell)
-    }
-}
-
-extension ProfileAvatarView: ProfileViewProtocol {}

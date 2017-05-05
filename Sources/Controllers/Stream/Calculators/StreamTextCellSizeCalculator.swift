@@ -20,6 +20,11 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 // MARK: Public
 
     func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, columnCount: Int, completion: @escaping ElloEmptyCompletion) {
+        guard cellItems.count > 0 else {
+            completion()
+            return
+        }
+
         let job: CellJob = (cellItems: cellItems, width: width, columnCount: columnCount, completion: completion)
         cellJobs.append(job)
         if cellJobs.count == 1 {

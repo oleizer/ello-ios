@@ -45,6 +45,7 @@ protocol StreamViewDelegate: class {
 @objc
 protocol CategoryResponder: class {
     func categoryCellTapped(cell: UICollectionViewCell)
+    func categoryTapped(_ category: Category)
 }
 
 @objc
@@ -893,7 +894,7 @@ extension StreamViewController: StreamEditingResponder {
 
         if !post.loved {
             let footerCell = collectionView.cellForItem(at: footerPath) as? StreamFooterCell
-            postbarController?.toggleLove(footerCell, post: post)
+            postbarController?.toggleLove(footerCell, post: post, via: "double tap")
         }
     }
 
@@ -979,10 +980,6 @@ extension StreamViewController: StreamPostTappedResponder {
 // MARK: StreamViewController: Open category
 extension StreamViewController {
 
-    func categoryTapped(_ category: Category) {
-        showCategoryViewController(slug: category.slug, name: category.name)
-    }
-
     func showCategoryViewController(slug: String, name: String) {
         Tracker.shared.categoryOpened(slug)
         let vc = CategoryViewController(slug: slug, name: name)
@@ -993,6 +990,10 @@ extension StreamViewController {
 
 // MARK: StreamViewController: CategoryResponder
 extension StreamViewController: CategoryResponder {
+
+    func categoryTapped(_ category: Category) {
+        showCategoryViewController(slug: category.slug, name: category.name)
+    }
 
     func categoryCellTapped(cell: UICollectionViewCell) {
         guard
@@ -1112,6 +1113,13 @@ extension StreamViewController: UICollectionViewDelegate {
             if let user = dataSource.userForIndexPath(indexPath) {
                 userTapped(user: user)
             }
+        }
+        else if tappedCell is BadgeCell,
+            let badge = dataSource.jsonableForIndexPath(indexPath) as? Badge,
+            let url = badge.profileBadge.url
+        {
+            Tracker.shared.badgeScreenLink(badge.profileBadge.rawValue)
+            postNotification(ExternalWebNotification, value: url.absoluteString)
         }
         else if tappedCell is StreamSeeMoreCommentsCell {
             if let lastComment = dataSource.commentForIndexPath(indexPath),

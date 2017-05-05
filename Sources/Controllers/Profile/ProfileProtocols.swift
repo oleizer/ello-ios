@@ -2,7 +2,13 @@
 ///  ProfileProtocols.swift
 //
 
-protocol ProfileViewProtocol: class {}
+protocol ProfileScreenDelegate: class {
+    func mentionTapped()
+    func hireTapped()
+    func editTapped()
+    func inviteTapped()
+    func collaborateTapped()
+}
 
 protocol ProfileScreenProtocol: StreamableScreenProtocol {
     func disableButtons()
@@ -18,12 +24,4 @@ protocol ProfileScreenProtocol: StreamableScreenProtocol {
     var topInsetView: UIView { get }
     var coverImage: UIImage? { get set }
     var coverImageURL: URL? { get set }
-}
-
-protocol ProfileScreenDelegate: class {
-    func mentionTapped()
-    func hireTapped()
-    func editTapped()
-    func inviteTapped()
-    func collaborateTapped()
 }

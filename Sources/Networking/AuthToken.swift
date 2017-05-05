@@ -65,6 +65,11 @@ struct AuthToken {
         set { keychain.isStaff = newValue }
     }
 
+    var isNabaroo: Bool {
+        get { return keychain.isNabaroo ?? false }
+        set { keychain.isNabaroo = newValue }
+    }
+
     static func storeToken(_ data: Data, isPasswordBased: Bool, email: String? = nil, password: String? = nil) {
         var authToken = AuthToken()
         authToken.isPasswordBased = isPasswordBased

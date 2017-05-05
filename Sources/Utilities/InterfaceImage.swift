@@ -30,8 +30,13 @@ enum InterfaceImage: String {
     case reply = "reply"
     case flag = "flag"
 
-    // Badge Check Icon
-    case badgeCheck = "badge_check"
+    // Badges
+    case badgeFeatured = "badge_featured"
+    case badgeCommunity = "badge_community"
+    case badgeExperimental = "badge_experimental"
+    case badgeStaff = "badge_staff"
+    case badgeSpam = "badge_spam"
+    case badgeNsfw = "badge_nsfw"
 
     // Location Marker Icon
     case marker = "marker"
@@ -115,6 +120,27 @@ enum InterfaceImage: String {
 
     fileprivate func svgNamed(_ name: String) -> UIImage {
         return SVGKImage(named: "\(name).svg").uiImage.withRenderingMode(.alwaysOriginal)
+    }
+
+    var svgkImage: SVGKImage! {
+        switch self {
+        case .audioPlay,
+            .bubbleTail,
+            .buyButton,
+            .elloLogo,
+            .elloLogoGrey,
+            .elloGrayLineLogo,
+            .giantHeart,
+            .marker,
+            .narrationPointer,
+            .validationError,
+            .validationOK,
+            .smallCheck,
+            .videoPlay:
+            return SVGKImage(named: self.rawValue)
+        default:
+            return SVGKImage(named: "\(self.rawValue)_normal")
+        }
     }
 
     var normalImage: UIImage! {

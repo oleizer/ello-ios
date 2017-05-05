@@ -6,7 +6,7 @@
 import Quick
 import Nimble
 import Moya
-import Nimble_Snapshots
+
 
 class FakeResponder: UIWindow {
     var relationshipController: RelationshipController?
@@ -45,7 +45,8 @@ class RelationshipControlSpec: QuickSpec {
                     it("setting style to \(style) and relationshipPriority to \(relationship)") {
                         subject.style = style
                         subject.relationshipPriority = relationship
-                        expectValidSnapshot(subject, named: "style_\(style)_relationshipPriority_\(relationship)", device: .custom(subject.intrinsicContentSize))
+                        subject.frame.size = subject.intrinsicContentSize
+                        expectValidSnapshot(subject, named: "style_\(style)_relationshipPriority_\(relationship)")
                     }
                 }
             }
@@ -54,7 +55,7 @@ class RelationshipControlSpec: QuickSpec {
                 it("should calculate correctly") {
                     let expectedSize = CGSize(width: 105, height: 30)
                     expect(subject.intrinsicContentSize) == expectedSize
-                    subject.frame = CGRect(origin: .zero, size: expectedSize)
+                    subject.frame.size = expectedSize
                     subject.layoutIfNeeded()
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
                 }

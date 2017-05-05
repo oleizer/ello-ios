@@ -37,6 +37,7 @@ namespace :generate do
       ['TeamId', 'ELLO_TEAM_ID'],
       ['SodiumChloride', 'INVITE_FRIENDS_SALT'],
       ['CrashlyticsKey', 'CRASHLYTICS_KEY'],
+      ['NewRelicKey', 'NEW_RELIC_KEY'],
     ]
     keys.each do |name, env_name|
       has_all_keys = has_all_keys && check_env(env_name)

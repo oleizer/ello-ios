@@ -11,4 +11,5 @@ class FakeKeychain: KeychainType {
     var username: String?
     var password: String?
     var isStaff: Bool?
+    var isNabaroo: Bool?
 }

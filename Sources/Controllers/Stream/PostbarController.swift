@@ -203,14 +203,14 @@ class PostbarController: UIResponder, PostbarResponder {
             let post = self.postForIndexPath(indexPath)
         else { return }
 
-        toggleLove(cell, post: post)
+        toggleLove(cell, post: post, via: "button")
     }
 
-    func toggleLove(_ cell: StreamFooterCell?, post: Post) {
+    func toggleLove(_ cell: StreamFooterCell?, post: Post, via: String) {
         cell?.lovesControl.isUserInteractionEnabled = false
 
         if post.loved { unlovePost(post, cell: cell) }
-        else { lovePost(post, cell: cell) }
+        else { lovePost(post, cell: cell, via: via) }
     }
 
     fileprivate func unlovePost(_ post: Post, cell: StreamFooterCell?) {
@@ -236,8 +236,8 @@ class PostbarController: UIResponder, PostbarResponder {
             })
     }
 
-    fileprivate func lovePost(_ post: Post, cell: StreamFooterCell?) {
-        Tracker.shared.postLoved(post)
+    fileprivate func lovePost(_ post: Post, cell: StreamFooterCell?, via: String) {
+        Tracker.shared.postLoved(post, via: via)
         if let count = post.lovesCount {
             post.lovesCount = count + 1
             post.loved = true

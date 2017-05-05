@@ -5,7 +5,6 @@
 @testable import Ello
 import Quick
 import Nimble
-import Nimble_Snapshots
 
 
 class CategoryViewControllerSpec: QuickSpec {
@@ -59,12 +58,12 @@ class CategoryViewControllerSpec: QuickSpec {
                 subject = CategoryViewController(slug: category.slug)
                 screen = MockCategoryScreen()
                 subject.currentUser = currentUser
-                subject.mockScreen = screen
+                subject.screen = screen
                 showController(subject)
             }
 
             it("has a nice looking nav bar") {
-                expect(subject).to(haveValidSnapshot())
+                expectValidSnapshot(subject)
             }
 
             it("shows the back button when necessary") {
@@ -72,7 +71,7 @@ class CategoryViewControllerSpec: QuickSpec {
                 subject = CategoryViewController(slug: category.slug)
                 screen = MockCategoryScreen()
                 subject.currentUser = currentUser
-                subject.mockScreen = screen
+                subject.screen = screen
 
                 let nav = UINavigationController(rootViewController: UIViewController())
                 nav.pushViewController(subject, animated: false)

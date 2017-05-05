@@ -14,10 +14,12 @@ protocol PostsTappedResponder {
 
 @objc
 protocol ProfileHeaderResponder {
-    func onCategoryBadgeTapped(_ cell: UICollectionViewCell)
-    func onLovesTapped(_ cell: UICollectionViewCell)
-    func onFollowersTapped(_ cell: UICollectionViewCell)
-    func onFollowingTapped(_ cell: UICollectionViewCell)
+    func onCategoryBadgeTapped()
+    func onBadgeTapped(_ badge: String)
+    func onMoreBadgesTapped()
+    func onLovesTapped()
+    func onFollowersTapped()
+    func onFollowingTapped()
 }
 
 class ProfileHeaderCell: UICollectionViewCell {
@@ -34,6 +36,7 @@ class ProfileHeaderCell: UICollectionViewCell {
     var avatarView: ProfileAvatarView { return headerView.avatarView }
     var namesView: ProfileNamesView { return headerView.namesView }
     var totalCountView: ProfileTotalCountView { return headerView.totalCountView }
+    var badgesView: ProfileBadgesView { return headerView.badgesView }
     var statsView: ProfileStatsView { return headerView.statsView }
     var bioView: ProfileBioView { return headerView.bioView }
     var locationView: ProfileLocationView { return headerView.locationView }

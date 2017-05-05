@@ -1581,96 +1581,52 @@ class StreamDataSourceSpec: QuickSpec {
                     expect(items) == []
                 }
             }
-            //
-            //            xdescribe("-collectionView:cellForItemAtIndexPath:") {
-            //
-            //                beforeEach {
-            //                    subject = StreamDataSource(streamKind: .Following,
-            //                        textSizeCalculator: textSizeCalculator,
-            //                        notificationSizeCalculator: notificationSizeCalculator,
-            //                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-            //
-            //                    subject.appendUnsizedCellItems(ModelHelper.allCellTypes(), withWidth: webWidth) { cellCount in
-            //                        vc.collectionView.reloadData()
-            //                    }
-            //                }
-            //
-            //                describe("with posts") {
-            //                    it("returns a StreamHeaderCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 0, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
-            //                    }
-            //
-            //                    it("returns a StreamTextCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 1, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(StreamToggleCell.self))
-            //                    }
-            //
-            //                    it("returns a StreamFooterCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 2, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(StreamTextCell.self))
-            //                    }
-            //                }
-            //
-            //                describe("with comments") {
-            //                    it("returns a StreamHeaderCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 3, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(StreamFooterCell.self))
-            //                    }
-            //
-            //                    it("returns a StreamTextCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 4, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
-            //                    }
-            //                }
-            //
-            //                describe("with users") {
-            //                    it("returns a ProfileHeaderCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 5, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(StreamTextCell.self))
-            //                    }
-            //
-            //                    it("returns a UserListItemCell") {
-            //                        let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 6, section: 0))
-            //                        expect(cell).to(beAnInstanceOf(ProfileHeaderCell.self))
-            //                    }
-            //                }
-            //
-            //                it("returns a NotificationCell") {
-            //                    let notification: Notification = stub([:])
-            //                    let cellItem = StreamCellItem(jsonable: notification, type: .Notification)
-            //                    subject.appendUnsizedCellItems([cellItem], withWidth: webWidth) { cellCount in
-            //                        vc.collectionView.reloadData()
-            //                    }
-            //
-            //                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 0, section: 0))
-            //                    expect(cell).to(beAnInstanceOf(NotificationCell.self))
-            //                }
-            //
-            //                it("returns a StreamImageCell") {
-            //                    let post: Post = stub([:])
-            //                    let imageRegion: ImageRegion = stub([:])
-            //                    let cellItem = StreamCellItem(jsonable: post, type: .Image)
-            //                    subject.appendUnsizedCellItems([cellItem], withWidth: webWidth) { cellCount in
-            //                        vc.collectionView.reloadData()
-            //                    }
-            //
-            //                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 0, section: 0))
-            //                    expect(cell).to(beAnInstanceOf(StreamImageCell.self))
-            //                }
-            //
-            //                it("returns a StreamToggleCell") {
-            //                    // Xcode is unable to compile the specs with all the cell types that are generated by the "allCellTypes()" helper in Model Helper
-            //                    let post: Post = stub([:])
-            //                    let cellItem = StreamCellItem(jsonable: post, type: .Toggle)
-            //                    subject.appendUnsizedCellItems([cellItem], withWidth: webWidth) { cellCount in
-            //                        vc.collectionView.reloadData()
-            //                    }
-            //
-            //                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: IndexPath(item: 0, section: 0))
-            //                    expect(cell).to(beAnInstanceOf(StreamToggleCell.self))
-            //                }
-            //            }
+
+            describe("calculating heights early exit") {
+                it("should call the calculatedCellItems(completion:) block immediately if no cells need to be calculated") {
+                    subject = StreamDataSource(streamKind: .following,
+                                               textSizeCalculator: StreamTextCellSizeCalculator(webView: UIWebView()),
+                                               notificationSizeCalculator: StreamNotificationCellSizeCalculator(webView: UIWebView()),
+                                               announcementSizeCalculator: AnnouncementCellSizeCalculator(),
+                                               profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator(),
+                                               imageSizeCalculator: StreamImageCellSizeCalculator(),
+                                               categoryHeaderSizeCalculator: CategoryHeaderCellSizeCalculator()
+                    )
+
+                    let items: [StreamCellItem] = [
+                        StreamCellItem(type: .categoryCard),
+                        StreamCellItem(type: .selectableCategoryCard),
+                        StreamCellItem(type: .categoryList),
+                        StreamCellItem(type: .commentHeader),
+                        StreamCellItem(type: .createComment),
+                        StreamCellItem(type: .footer),
+                        StreamCellItem(type: .header),
+                        StreamCellItem(type: .inviteFriends),
+                        StreamCellItem(type: .onboardingInviteFriends),
+                        StreamCellItem(type: .emptyStream(height: 10)),
+                        StreamCellItem(type: .loadMoreComments),
+                        StreamCellItem(type: .noPosts),
+                        StreamCellItem(type: .placeholder),
+                        StreamCellItem(type: .profileHeaderGhost),
+                        StreamCellItem(type: .search(placeholder: "")),
+                        StreamCellItem(type: .seeMoreComments),
+                        StreamCellItem(type: .spacer(height: 10)),
+                        StreamCellItem(type: .fullWidthSpacer(height: 10)),
+                        StreamCellItem(type: .streamLoading),
+                        StreamCellItem(type: .textHeader(nil)),
+                        StreamCellItem(type: .toggle),
+                        StreamCellItem(type: .unknown),
+                        StreamCellItem(type: .userAvatars),
+                        StreamCellItem(type: .userListItem),
+                    ]
+
+                    var done = false
+                    subject.calculateCellItems(items, withWidth: 375) { _ in
+                        done = true
+                    }
+                    expect(done) == true
+                }
+            }
         }
     }
 }

@@ -5,7 +5,6 @@
 @testable import Ello
 import Quick
 import Nimble
-import Nimble_Snapshots
 
 
 class StreamHeaderCellSpec: QuickSpec {
@@ -169,7 +168,7 @@ class StreamHeaderCellSpec: QuickSpec {
 
                         subject.layoutIfNeeded()
                         showView(subject)
-                        expect(subject).to(haveValidSnapshot())
+                        expectValidSnapshot(subject)
                     }
                 }
             }

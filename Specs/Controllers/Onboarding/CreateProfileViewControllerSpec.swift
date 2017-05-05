@@ -29,7 +29,7 @@ class CreateProfileViewControllerSpec: QuickSpec {
             onboardingViewController = MockOnboardingViewController()
             onboardingData = onboardingViewController.onboardingData
             subject.onboardingData = onboardingData
-            subject.mockScreen = mockScreen
+            subject.screen = mockScreen
             subject.onboardingViewController = onboardingViewController
         }
 

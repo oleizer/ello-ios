@@ -23,8 +23,11 @@ class HireViewController: BaseElloViewController {
 
     let user: User
     let contactType: UserEmailType
-    var mockScreen: HireScreenProtocol?
-    var screen: HireScreenProtocol { return mockScreen ?? (self.view as! HireScreenProtocol) }
+    private var _mockScreen: HireScreenProtocol?
+    var screen: HireScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! HireScreen) }
+    }
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 

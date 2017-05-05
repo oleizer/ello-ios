@@ -5,7 +5,6 @@
 @testable import Ello
 import Quick
 import Nimble
-import Nimble_Snapshots
 
 
 class CategoryListCellSpec: QuickSpec {
@@ -56,8 +55,7 @@ class CategoryListCellSpec: QuickSpec {
                     (title: "Trending", slug: "trending"),
                     (title: "Recent", slug: "recent"),
                 ]
-                subject.layoutIfNeeded()
-                expect(subject).to(haveValidSnapshot())
+                expectValidSnapshot(subject)
             }
         }
     }

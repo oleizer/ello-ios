@@ -7,6 +7,24 @@ extension Array {
         return (startIndex..<endIndex).contains(index) ? self[index] : .none
     }
 
+    func safeRange(_ range: CountableRange<Int>) -> [Element] {
+        guard
+            range.lowerBound <= range.upperBound
+        else { return safeRange(range.upperBound ..< range.lowerBound).reversed() }
+
+        guard range.lowerBound != range.upperBound else { return [] }
+
+        let lower = Swift.max(startIndex, range.lowerBound)
+        let upper = Swift.min(endIndex, range.upperBound)
+        return (lower ..< upper).map { index in
+            return self[index]
+        }
+    }
+
+    func safeRange(_ range: CountableClosedRange<Int>) -> [Element] {
+        return safeRange(range.lowerBound ..< (range.upperBound + 1))
+    }
+
     func find(_ test: (_ el: Element) -> Bool) -> Element? {
         for ob in self {
             if test(ob) {

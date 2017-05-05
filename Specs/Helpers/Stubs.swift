@@ -59,6 +59,14 @@ extension User: Stubbable {
         user.postsCount = (values["postsCount"] as? Int) ?? 0
         user.lovesCount = (values["lovesCount"] as? Int) ?? 0
         user.totalViewsCount = (values["totalViewsCount"] as? Int)
+
+        if let badges = values["badges"] as? [ProfileBadge] {
+            user.badges = badges
+        }
+        else if let badgeNames = values["badges"] as? [String] {
+            user.badges = badgeNames.flatMap { ProfileBadge(rawValue: $0) }
+        }
+
         if let count = values["followersCount"] as? Int {
             user.followersCount = String(count)
         }
@@ -68,6 +76,7 @@ extension User: Stubbable {
         else {
             user.followersCount = "stub-user-followers-count"
         }
+
         user.followingCount = (values["followingCount"] as? Int) ?? 0
         user.formattedShortBio = (values["formattedShortBio"] as? String)
         if let linkValues = (values["externalLinksList"] as? [[String:String]]) {
@@ -91,7 +100,7 @@ extension User: Stubbable {
             }
             user.addLinkArray("posts", array: postIds, type: .postsType)
         }
-        
+
         if let categories = values["categories"] as? [Ello.Category] {
             for category in categories {
                 ElloLinkedStore.sharedInstance.setObject(category, forKey: category.id, type: .categoriesType)
@@ -173,6 +182,7 @@ extension Profile: Stubbable {
         let email: String = (values["email"] as? String) ?? "email@example.com"
         let confirmedAt: Date = (values["confirmedAt"] as? Date) ?? Date()
         let isPublic: Bool = (values["isPublic"] as? Bool) ?? true
+        let isCommunity: Bool = (values["isCommunity"] as? Bool) ?? false
         let mutedCount: Int = (values["mutedCount"] as? Int) ?? 0
         let blockedCount: Int = (values["blockedCount"] as? Int) ?? 0
         let hasSharingEnabled: Bool = (values["hasSharingEnabled"] as? Bool) ?? true
@@ -210,6 +220,7 @@ extension Profile: Stubbable {
             email: email,
             confirmedAt: confirmedAt,
             isPublic: isPublic,
+            isCommunity: isCommunity,
             mutedCount: mutedCount,
             blockedCount: blockedCount,
             hasSharingEnabled: hasSharingEnabled,
@@ -626,6 +637,7 @@ extension Announcement: Stubbable {
 
         let announcement = Announcement(
             id: (values["id"] as? String) ?? "666",
+            isStaffPreview: (values["isStaffPreview"] as? Bool) ?? false,
             header: (values["header"] as? String) ?? "Announcing Not For Print, Ello’s new publication",
             body: (values["body"] as? String) ?? "Submissions for Issue 01 — Censorship will be open from 11/7 – 11/23",
             ctaURL: urlFromValue(values["ctaURL"]),

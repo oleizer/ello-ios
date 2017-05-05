@@ -43,6 +43,11 @@ class AnnouncementCellSizeCalculator {
     }
 
     func processCells(_ cellItems: [StreamCellItem], withWidth width: CGFloat, completion: @escaping ElloEmptyCompletion) {
+        guard cellItems.count > 0 else {
+            completion()
+            return
+        }
+
         let job: CellJob = (cellItems: cellItems, width: width, completion: completion)
         cellJobs.append(job)
         if cellJobs.count == 1 {

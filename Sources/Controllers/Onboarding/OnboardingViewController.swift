@@ -16,8 +16,11 @@ class OnboardingViewController: BaseElloViewController {
         case error
     }
 
-    var mockScreen: OnboardingScreenProtocol?
-    var screen: OnboardingScreenProtocol { return mockScreen ?? (self.view as! OnboardingScreenProtocol) }
+    private var _mockScreen: OnboardingScreenProtocol?
+    var screen: OnboardingScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! OnboardingScreen) }
+    }
 
     var inviteFriendsController: InviteFriendsViewController? {
         willSet {

@@ -21,8 +21,9 @@ class EmptyStreamCellSpec: QuickSpec {
             for (size, desc) in sizes {
                 it("\(desc) should match snapshot"){
                     let subject = EmptyStreamCell()
+                    subject.frame.size = size
                     subject.title = "Nothing To See Here"
-                    expectValidSnapshot(subject, device: .custom(size))
+                    expectValidSnapshot(subject)
                 }
             }
         }

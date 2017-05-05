@@ -67,7 +67,10 @@ extension Tracker {
         Crashlytics.sharedInstance().setUserIdentifier(shouldTrackUser ? user.id : "")
 
         if let analyticsId = user.profile?.gaUniqueId {
+            let authToken = AuthToken()
             agent.identify(analyticsId, traits: [
+                "is_nabaroo": authToken.isNabaroo,
+                "is_featured": user.isFeatured,
                 "created_at": user.profile?.createdAt.toServerDateString() ?? "no-creation-date",
                 "agent": "ios",
             ])
@@ -82,6 +85,11 @@ extension Tracker {
         agent.track(event, properties: properties)
     }
 
+    func screen(_ name: String, properties customProps: [AnyHashable: Any] = [:]) {
+        let properties = customProps + ["agent": "ios"]
+        agent.screen(name, properties: properties)
+    }
+
     func sessionStarted() {
         track("Session Began")
     }
@@ -93,22 +101,6 @@ extension Tracker {
 
 // MARK: Signup and Login
 extension Tracker {
-
-    func tappedJoinFromStartup() {
-        track("tapped join from startup")
-    }
-
-    func tappedLoginFromStartup() {
-        track("tapped sign in from startup")
-    }
-
-    func tappedJoinFromLogin() {
-        track("tapped join from sign-in")
-    }
-
-    func tappedLoginFromJoin() {
-        track("tapped sign in from join")
-    }
 
     func enteredEmail() {
         track("entered email and pressed 'next'")
@@ -158,6 +150,10 @@ extension Tracker {
         track("reset password failed")
     }
 
+    func joinButtonTapped() {
+        track("join button tapped")
+    }
+
     func joinValid() {
         track("join valid")
     }
@@ -176,6 +172,10 @@ extension Tracker {
 
     func tappedLogin() {
         track("tapped sign in")
+    }
+
+    func loginButtonTapped() {
+        track("login button tapped")
     }
 
     func loginValid() {
@@ -332,12 +332,23 @@ extension Tracker {
         }
     }
 
+    func loggedOutScreenAppeared(_ viewController: UIViewController) {
+        if let name = viewController.trackerName() {
+            track("logged out screen viewed", properties: ["screen": name])
+        }
+    }
+
     func screenAppeared(_ name: String, properties: [String: AnyObject]? = nil) {
-        agent.screen("Screen \(name)", properties: properties)
+        if let properties = properties {
+            screen("Screen \(name)", properties: properties)
+        }
+        else {
+            screen("Screen \(name)")
+        }
     }
 
     func webViewAppeared(_ url: String) {
-        agent.screen("Web View", properties: ["url": url])
+        screen("Web View", properties: ["url": url])
     }
 
     func categoryOpened(_ categorySlug: String) {
@@ -350,6 +361,18 @@ extension Tracker {
 
     func categoryHeaderCallToAction(_ categoryTitle: String) {
         track("promoCTA clicked", properties: ["category": categoryTitle])
+    }
+
+    func badgeOpened(_ badgeSlug: String) {
+        track("badge opened", properties: ["badge": badgeSlug])
+    }
+
+    func badgeLearnMore(_ badgeSlug: String) {
+        track("badge learn more clicked", properties: ["badge": badgeSlug])
+    }
+
+    func badgeScreenLink(_ badgeSlug: String) {
+        track("badges screen link tapped", properties: ["badge": badgeSlug])
     }
 
     func viewedImage(_ asset: Asset, post: Post) {
@@ -480,8 +503,8 @@ extension Tracker {
         track("Post shared", properties: ["post_id": post.id])
     }
 
-    func postLoved(_ post: Post) {
-        track("Post loved", properties: ["post_id": post.id])
+    func postLoved(_ post: Post, via: String) {
+        track("Post loved", properties: ["post_id": post.id, "via": via])
     }
 
     func postUnloved(_ post: Post) {
@@ -616,6 +639,10 @@ extension Tracker {
 
 // MARK: LoggedOut
 extension Tracker {
+    func loggedOutScreenViewed() {
+        track("logged out screen viewed")
+    }
+
     func loggedOutRelationshipAction() {
         track("logged out follow button")
     }

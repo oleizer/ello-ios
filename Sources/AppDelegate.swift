@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         #if DEBUG
         Tracker.shared.overrideAgent = NullAgent()
+        #else
+        Crashlytics.start(withAPIKey: ElloKeys().crashlyticsKey())
         #endif
 
         Keyboard.setup()
@@ -58,11 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupGlobalStyles()
         setupCaches()
-        if !AppSetup.sharedState.isSimulator && !AppSetup.sharedState.isTesting {
-            inBackground {
-                Crashlytics.start(withAPIKey: ElloKeys().crashlyticsKey())
-            }
-        }
 
         if let payload = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
             log(comment: "notification received \(Date())", object: payload)

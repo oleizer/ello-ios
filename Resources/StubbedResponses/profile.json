@@ -90,6 +90,7 @@
     "confirmed_at": "2015-02-11T00:34:08.337Z",
     "ga_unique_id": "eb62f1c48ff87127c3120e4b5eee7a78a00cb42c",
     "is_public": false,
+    "is_community": true,
     "has_commenting_enabled": true,
     "has_sharing_enabled": true,
     "has_reposting_enabled": true,

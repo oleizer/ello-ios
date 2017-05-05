@@ -12,7 +12,8 @@ import SwiftyJSON
 // version 5: added isCollaborateable, moved notifyOf* into Profile
 // version 6: added categories, totalViewCount
 // version 7: added location
-let UserVersion: Int = 7
+// version 8: added badges
+let UserVersion: Int = 8
 
 @objc(User)
 final class User: JSONAble {
@@ -39,6 +40,9 @@ final class User: JSONAble {
     var hasLovesEnabled: Bool
     var isCollaborateable: Bool
     var isHireable: Bool
+    var isFeatured: Bool {
+        return (categories?.count ?? 0) > 0
+    }
     // optional
     var avatar: Asset? // required, but kinda optional due to it being nested in json
     var identifiableBy: String?
@@ -65,6 +69,16 @@ final class User: JSONAble {
     // links
     var posts: [Post]? { return getLinkArray("posts") as? [Post] }
     var categories: [Category]? { return getLinkArray("categories") as? [Category] }
+    private var _badges: [ProfileBadge]?
+    var badges: [ProfileBadge] {
+        get {
+            guard let badges = _badges, badges.count > 0 else {
+                return (categories?.count ?? 0) > 0 ? [.featured] : []
+            }
+            return badges
+        }
+        set { _badges = newValue }
+    }
 
     // computed
     var atName: String { return "@\(username)"}
@@ -145,6 +159,10 @@ final class User: JSONAble {
             self.isCollaborateable = decoder.decodeKey("isCollaborateable")
         }
 
+        if let badgeNames: [String] = decoder.decodeOptionalKey("badges") {
+            self._badges = badgeNames.flatMap { ProfileBadge(rawValue: $0) }
+        }
+
         // optional
         self.avatar = decoder.decodeOptionalKey("avatar")
         self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
@@ -220,6 +238,7 @@ final class User: JSONAble {
         coder.encodeObject(onboardingVersion, forKey: "onboardingVersion")
         coder.encodeObject(totalViewsCount, forKey: "totalViewsCount")
         coder.encodeObject(location, forKey: "location")
+        coder.encodeObject(badges.map { $0.rawValue }, forKey: "badges")
 
         // profile
         coder.encodeObject(profile, forKey: "profile")
@@ -271,7 +290,7 @@ final class User: JSONAble {
         user.formattedShortBio = json["formatted_short_bio"].string
         // grab links
         if let links = json["external_links_list"].array {
-            let externalLinks = links.flatMap({ $0.dictionaryObject as? [String: String] })
+            let externalLinks = links.flatMap { $0.dictionaryObject as? [String: String] }
             user.externalLinksList = externalLinks.flatMap { ExternalLink.fromDict($0) }
         }
         user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: data["cover_image"] as? [String: AnyObject])
@@ -284,6 +303,10 @@ final class User: JSONAble {
         // profile
         if (json["created_at"].stringValue).characters.count > 0 {
             user.profile = Profile.fromJSON(data) as? Profile
+        }
+
+        if let badgeNames: [String] = json["badges"].array?.flatMap({ $0.string }) {
+            user.badges = badgeNames.flatMap { ProfileBadge(rawValue: $0) }
         }
 
         user.totalViewsCount = json["total_views_count"].int

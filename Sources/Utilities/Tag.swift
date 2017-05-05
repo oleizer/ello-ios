@@ -292,7 +292,7 @@ class Tag: CustomStringConvertible {
         }
     }
 
-    fileprivate func attrd(_ text: String, addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
+    fileprivate func attrd(_ text: String, addlAttrs: [String: Any] = [:]) -> NSAttributedString {
         let defaultAttrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.editorFont(),
             NSForegroundColorAttributeName: UIColor.black,
@@ -300,13 +300,13 @@ class Tag: CustomStringConvertible {
         return NSAttributedString(string: text, attributes: defaultAttrs + addlAttrs)
     }
 
-    func makeEditable(_ inheritedAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
+    func makeEditable(_ inheritedAttrs: [String: Any] = [:]) -> NSAttributedString {
         if comment != nil {
             return NSAttributedString()
         }
 
         let retval = NSMutableAttributedString(string: "")
-        var newAttrs: [String: AnyObject] = inheritedAttrs
+        var newAttrs: [String: Any] = inheritedAttrs
         let text: String? = self.text
 
         if let tag = name {
@@ -314,7 +314,7 @@ class Tag: CustomStringConvertible {
             case "br":
                 retval.append(attrd("\n"))
             case "u":
-                newAttrs[NSUnderlineStyleAttributeName] = NSUnderlineStyle.styleSingle.rawValue as AnyObject?
+                newAttrs[NSUnderlineStyleAttributeName] = NSUnderlineStyle.styleSingle.rawValue
             case "b", "strong":
                 if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont, existingFont.fontName == UIFont.editorItalicFont().fontName
                 {

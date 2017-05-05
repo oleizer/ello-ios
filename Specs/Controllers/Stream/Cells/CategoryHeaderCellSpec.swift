@@ -5,7 +5,6 @@
 @testable import Ello
 import Quick
 import Nimble
-import Nimble_Snapshots
 import PINRemoteImage
 import PINCache
 
@@ -132,7 +131,7 @@ class CategoryHeaderCellSpec: QuickSpec {
 
                         subject.layoutIfNeeded()
                         showView(subject)
-                        expect(subject).to(haveValidSnapshot())
+                        expectValidSnapshot(subject)
                     }
                 }
             }

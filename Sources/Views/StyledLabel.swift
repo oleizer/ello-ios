@@ -118,6 +118,10 @@ extension StyledLabel.Style {
         )
     static let largeWhite = StyledLabel.Style(
         textColor: .white,
+        fontFamily: .large
+        )
+    static let largeBoldWhite = StyledLabel.Style(
+        textColor: .white,
         fontFamily: .largeBold
         )
     static let black = StyledLabel.Style(

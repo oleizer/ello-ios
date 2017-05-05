@@ -9,6 +9,7 @@ import SwiftyJSON
 // version 2: added hasAutoWatchEnabled and moved in notifyOfWatch* settings
 // version 3: added notifyOfAnnouncementsViaPush
 // version 4: added hasAnnouncementsEnabled
+// version 4: added isCommunity
 let ProfileVersion: Int = 4
 
 @objc(Profile)
@@ -22,6 +23,7 @@ final class Profile: JSONAble {
     let email: String
     let confirmedAt: Date
     var isPublic: Bool
+    var isCommunity: Bool
     var mutedCount: Int
     var blockedCount: Int
     var hasSharingEnabled: Bool
@@ -61,6 +63,7 @@ final class Profile: JSONAble {
         email: String,
         confirmedAt: Date,
         isPublic: Bool,
+        isCommunity: Bool,
         mutedCount: Int,
         blockedCount: Int,
         hasSharingEnabled: Bool,
@@ -97,6 +100,7 @@ final class Profile: JSONAble {
         self.email = email
         self.confirmedAt = confirmedAt
         self.isPublic = isPublic
+        self.isCommunity = isCommunity
         self.mutedCount = mutedCount
         self.blockedCount = blockedCount
         self.hasSharingEnabled = hasSharingEnabled
@@ -146,6 +150,13 @@ final class Profile: JSONAble {
         self.hasSharingEnabled = decoder.decodeKey("hasSharingEnabled")
         self.hasAdNotificationsEnabled = decoder.decodeKey("hasAdNotificationsEnabled")
         let version: Int = decoder.decodeKey("version")
+
+        if version < 5 {
+            self.isCommunity = false
+        }
+        else {
+            self.isCommunity = decoder.decodeKey("isCommunity")
+        }
 
         if version < 4 {
             self.hasAnnouncementsEnabled = true
@@ -206,6 +217,7 @@ final class Profile: JSONAble {
         coder.encodeObject(email, forKey: "email")
         coder.encodeObject(confirmedAt, forKey: "confirmedAt")
         coder.encodeObject(isPublic, forKey: "isPublic")
+        coder.encodeObject(isCommunity, forKey: "isCommunity")
         coder.encodeObject(mutedCount, forKey: "mutedCount")
         coder.encodeObject(blockedCount, forKey: "blockedCount")
         coder.encodeObject(hasSharingEnabled, forKey: "hasSharingEnabled")
@@ -250,6 +262,7 @@ final class Profile: JSONAble {
             email: json["email"].stringValue,
             confirmedAt: (json["confirmed_at"].stringValue.toDate() ?? Date()),
             isPublic: json["is_public"].boolValue,
+            isCommunity: json["is_community"].boolValue,
             mutedCount: json["muted_count"].intValue,
             blockedCount: json["blocked_count"].intValue,
             hasSharingEnabled: json["has_sharing_enabled"].boolValue,

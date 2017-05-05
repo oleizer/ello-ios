@@ -36,15 +36,14 @@ final class ProfileViewController: StreamableViewController {
         set { _tabBarItem = newValue }
     }
 
-    var _mockScreen: ProfileScreenProtocol?
+    private var _mockScreen: ProfileScreenProtocol?
     var screen: ProfileScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! ProfileScreenProtocol }
+        get { return _mockScreen ?? self.view as! ProfileScreen }
     }
 
     var user: User?
     var headerItems: [StreamCellItem]?
-    var responseConfig: ResponseConfig?
     var userParam: String
     var coverImageHeightStart: CGFloat?
     let initialStreamKind: StreamKind
@@ -118,13 +117,21 @@ final class ProfileViewController: StreamableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func loadView() {
+        let screen = ProfileScreen()
+        screen.delegate = self
+        screen.navigationItem = elloNavigationItem
+        screen.clipsToBounds = true
+        self.view = screen
+        viewContainer = screen.streamContainer
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if user == nil {
             screen.disableButtons()
         }
-        view.clipsToBounds = true
         setupNavigationItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
@@ -132,14 +139,6 @@ final class ProfileViewController: StreamableViewController {
         if let user = user {
             updateUser(user)
         }
-    }
-
-    override func loadView() {
-        let screen = ProfileScreen()
-        screen.delegate = self
-        screen.navigationItem = elloNavigationItem
-        self.view = screen
-        viewContainer = screen.streamContainer
     }
 
     override func viewDidLayoutSubviews() {
@@ -168,7 +167,7 @@ final class ProfileViewController: StreamableViewController {
 
     override func hideNavBars() {
         super.hideNavBars()
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: true)
+        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint)
         updateInsets()
 
         let offset = self.streamViewController.collectionView.contentOffset
@@ -392,23 +391,48 @@ extension ProfileViewController: PostsTappedResponder {
 // MARK: ProfileHeaderResponder
 extension ProfileViewController: ProfileHeaderResponder {
 
-    func onCategoryBadgeTapped(_ cell: UICollectionViewCell) {
+    func onCategoryBadgeTapped() {
         guard
             let categories = user?.categories,
             let count = user?.categories?.count,
             count > 0
         else { return }
 
+        Tracker.shared.badgeOpened(ProfileBadge.featured.rawValue)
         let vc = ProfileCategoriesViewController(categories: categories)
-        vc.currentUser = currentUser
         vc.presentingVC = self
+        presentModal(vc)
+    }
+
+    func onBadgeTapped(_ badgeName: String) {
+        guard let badge = ProfileBadge(rawValue: badgeName) else { return }
+
+        Tracker.shared.badgeOpened(badge.rawValue)
+        let vc = ProfileBadgeViewController(badge: badge)
+        presentModal(vc)
+    }
+
+    private func presentModal(_ vc: BaseElloViewController) {
+        vc.currentUser = currentUser
+        // vc.presentingVC = self
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = vc
+        vc.transitioningDelegate = vc as? UIViewControllerTransitioningDelegate
         present(vc, animated: true, completion: nil)
     }
 
-    func onLovesTapped(_ cell: UICollectionViewCell) {
+    func onMoreBadgesTapped() {
+        guard
+            let user = self.user,
+            user.badges.count > 3
+        else { return }
+
+        let badgesViewController = BadgesViewController(user: user)
+        badgesViewController.currentUser = currentUser
+        navigationController?.pushViewController(badgesViewController, animated: true)
+    }
+
+    func onLovesTapped() {
         guard let user = self.user else { return }
 
         let noResultsTitle: String
@@ -429,7 +453,7 @@ extension ProfileViewController: ProfileHeaderResponder {
         )
     }
 
-    func onFollowersTapped(_ cell: UICollectionViewCell) {
+    func onFollowersTapped() {
         guard let user = self.user else { return }
 
         let noResultsTitle: String
@@ -450,7 +474,7 @@ extension ProfileViewController: ProfileHeaderResponder {
         )
     }
 
-    func onFollowingTapped(_ cell: UICollectionViewCell) {
+    func onFollowingTapped() {
         guard let user = user else { return }
 
         let noResultsTitle: String

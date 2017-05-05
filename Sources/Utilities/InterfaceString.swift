@@ -100,6 +100,8 @@ struct InterfaceString {
     struct Settings {
         static let EditProfile: String = NSLocalizedString("Edit Profile", comment: "Edit Profile Title")
         static let ProfileDescription: String = NSLocalizedString("Your name, username, bio and links appear on your public profile. Your email address remains private.", comment: "Profile Privacy Description")
+        static let Bio: String = NSLocalizedString("Bio", comment: "bio setting")
+        static let CommunityInfo: String = NSLocalizedString("Community Info", comment: "community info setting")
         static let Name: String = NSLocalizedString("Name", comment: "name setting")
         static let Links: String = NSLocalizedString("Links", comment: "links setting")
         static let Location: String = NSLocalizedString("Location", comment: "location setting")
@@ -130,8 +132,20 @@ struct InterfaceString {
         static let CurrentUserNoResultsBody: String = NSLocalizedString("Everything you post lives here!\n\nThis is the place to find everyone you’re following and everyone that’s following you. You’ll find your Loves here too!", comment: "")
         static let NoResultsTitle: String = NSLocalizedString("This person hasn't posted yet.", comment: "")
         static let NoResultsBody: String = NSLocalizedString("Follow or mention them to help them get started!", comment: "")
-        static let FeaturedIn: String = NSLocalizedString("Featured in", comment: "Featurd in")
-        static let TotalViews: String = NSLocalizedString("Total Views", comment: "")
+        static let FeaturedIn: String = NSLocalizedString("Featured in", comment: "Featurd in label")
+        static let TotalViews: String = NSLocalizedString("Views", comment: "Total views label")
+        static let Badges: String = NSLocalizedString("Badges", comment: "")
+    }
+
+    struct Badges {
+        static let Featured = NSLocalizedString("Featured", comment: "")
+        static let Community = NSLocalizedString("Community Profile", comment: "")
+        static let Experimental = NSLocalizedString("Experimental Group", comment: "")
+        static let Staff = NSLocalizedString("Ello Staff Member", comment: "")
+        static let StaffLink = NSLocalizedString("Meet the Staff", comment: "")
+        static let Spam = NSLocalizedString("Spam, Eggs, and Spam", comment: "")
+        static let Nsfw = NSLocalizedString("NSFW", comment: "")
+        static let LearnMore: String = NSLocalizedString("Learn More", comment: "")
     }
 
     struct Post {

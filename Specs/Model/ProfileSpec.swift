@@ -19,6 +19,7 @@ class ProfileSpec: QuickSpec {
                     expect(profile.email) == "sterling@isisagency.com"
                     expect(profile.gaUniqueId) == "eb62f1c48ff87127c3120e4b5eee7a78a00cb42c"
                     expect(profile.isPublic) == false
+                    expect(profile.isCommunity) == true
                     expect(profile.hasSharingEnabled) == true
                     expect(profile.hasAdNotificationsEnabled) == false
                     expect(profile.allowsAnalytics) == true

@@ -27,13 +27,14 @@ class StreamImageCellSpec: QuickSpec {
             for (listView, isComment, isRepost, buyButton) in expectations {
                 it("\(listView ? "list" : "grid") view \(isComment ? "comment" : (isRepost ? "repost" : "post"))\(buyButton ? " with buy button" : "") should match snapshot") {
                     let subject = StreamImageCell.loadFromNib() as StreamImageCell
+                    subject.frame = CGRect(origin: .zero, size: CGSize(width: 375, height: 225))
                     subject.isGridView = !listView
                     subject.marginType = (isComment ? .comment : (isRepost ? .repost : .post))
                     subject.setImage(image)
                     if buyButton {
                         subject.buyButtonURL = URL(string: "http://ello.co")
                     }
-                    expectValidSnapshot(subject, device: .custom(CGSize(width: 375, height: 225)))
+                    expectValidSnapshot(subject)
                 }
             }
         }

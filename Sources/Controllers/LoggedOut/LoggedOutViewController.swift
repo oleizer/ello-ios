@@ -20,8 +20,11 @@ class LoggedOutViewController: BaseElloViewController, BottomBarController {
     var bottomBarHeight: CGFloat { return screen.bottomBarHeight }
     var bottomBarView: UIView { return screen.bottomBarView }
 
-    var mockScreen: LoggedOutScreenProtocol?
-    var screen: LoggedOutScreenProtocol { return mockScreen ?? (self.view as! LoggedOutScreenProtocol) }
+    private var _mockScreen: LoggedOutScreenProtocol?
+    var screen: LoggedOutScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! LoggedOutScreen) }
+    }
 
     fileprivate var userActionAttemptedObserver: NotificationObserver?
 
@@ -73,10 +76,12 @@ extension LoggedOutViewController {
 
 extension LoggedOutViewController: LoggedOutProtocol {
     func showLoginScreen() {
+        Tracker.shared.loginButtonTapped()
         appViewController?.showLoginScreen()
     }
 
     func showJoinScreen() {
+        Tracker.shared.joinButtonTapped()
         appViewController?.showJoinScreen()
     }
 }

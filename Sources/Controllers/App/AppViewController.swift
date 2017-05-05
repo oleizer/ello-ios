@@ -32,8 +32,11 @@ protocol HasAppController {
 class AppViewController: BaseElloViewController {
     override func trackerName() -> String? { return nil }
 
-    var mockScreen: AppScreenProtocol?
-    var screen: AppScreenProtocol { return mockScreen ?? (self.view as! AppScreenProtocol) }
+    private var _mockScreen: AppScreenProtocol?
+    var screen: AppScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! AppScreen) }
+    }
 
     var visibleViewController: UIViewController?
     fileprivate var userLoggedOutObserver: NotificationObserver?

@@ -6,9 +6,9 @@ import FutureKit
 
 
 struct ProfileNamesSizeCalculator {
-    let promise = Promise<CGFloat>()
 
     func calculate(_ item: StreamCellItem, maxWidth: CGFloat) -> Future<CGFloat> {
+        let promise = Promise<CGFloat>()
         guard
             let user = item.jsonable as? User
         else {

@@ -13,6 +13,7 @@ struct CalculatedCellHeights {
         case profileAvatar
         case profileNames
         case profileTotalCount
+        case profileBadges
         case profileStats
         case profileBio
         case profileLocation
@@ -27,6 +28,8 @@ struct CalculatedCellHeights {
             profileNames = height
         case .profileTotalCount:
             profileTotalCount = height
+        case .profileBadges:
+            profileBadges = height
         case .profileStats:
             profileStats = height
         case .profileBio:
@@ -45,6 +48,7 @@ struct CalculatedCellHeights {
     var profileAvatar: CGFloat?
     var profileNames: CGFloat?
     var profileTotalCount: CGFloat?
+    var profileBadges: CGFloat?
     var profileStats: CGFloat?
     var profileBio: CGFloat?
     var profileLocation: CGFloat?

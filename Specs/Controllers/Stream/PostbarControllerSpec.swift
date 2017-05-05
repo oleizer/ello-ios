@@ -262,7 +262,7 @@ class PostbarControllerSpec: QuickSpec {
                             lovesCount = post.lovesCount!
                             contentChange = change
                         }
-                        subject.toggleLove(nil, post: post)
+                        subject.toggleLove(nil, post: post, via: "")
                         observer.removeObserver()
 
                         expect(lovesCount) == 6
@@ -277,7 +277,7 @@ class PostbarControllerSpec: QuickSpec {
                         let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
                             lovesCount = user.lovesCount!
                         }
-                        subject.toggleLove(nil, post: post)
+                        subject.toggleLove(nil, post: post, via: "")
                         observer.removeObserver()
 
                         expect(lovesCount) == prevLovesCount + 1

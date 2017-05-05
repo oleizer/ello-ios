@@ -9,17 +9,17 @@ final class ProfileCategoriesViewController: BaseElloViewController {
     init(categories: [Category]) {
         super.init(nibName: nil, bundle: nil)
         self.categories = categories
-        modalTransitionStyle = .crossDissolve
-        modalPresentationStyle = .custom
-        transitioningDelegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var mockScreen: ProfileCategoriesProtocol?
-    var screen: ProfileCategoriesProtocol { return mockScreen ?? (self.view as! ProfileCategoriesProtocol) }
+    private var _mockScreen: ProfileCategoriesProtocol?
+    var screen: ProfileCategoriesProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? (self.view as! ProfileCategoriesScreen) }
+    }
 
     override func loadView() {
         let screen = ProfileCategoriesScreen(categories: categories)
@@ -35,11 +35,22 @@ extension ProfileCategoriesViewController: UIViewControllerTransitioningDelegate
         guard presented == self
             else { return .none }
 
-        return ProfileCategoriesPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: .modalBackground())
+        return DarkModalPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: .modalBackground())
     }
 }
 
 extension ProfileCategoriesViewController: ProfileCategoriesDelegate {
+
+    func learnMoreTapped() {
+        let badge = ProfileBadge.featured
+        Tracker.shared.badgeLearnMore(badge.rawValue)
+
+        self.dismiss(animated: true) {
+            if let url = badge.url {
+                postNotification(ExternalWebNotification, value: url.absoluteString)
+            }
+        }
+    }
 
     func categoryTapped(_ category: Category) {
         Tracker.shared.categoryOpened(category.slug)

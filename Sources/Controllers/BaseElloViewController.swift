@@ -108,6 +108,14 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
         UIApplication.shared.statusBarStyle = .lightContent
     }
 
+    override func trackScreenAppeared() {
+        super.trackScreenAppeared()
+
+        if currentUser == nil {
+            Tracker.shared.loggedOutScreenAppeared(self)
+        }
+    }
+
     func didSetCurrentUser() {
         relationshipController?.currentUser = currentUser
     }
@@ -140,10 +148,7 @@ class BaseElloViewController: UIViewController, HasAppController, ControllerThat
     }
 
     func isRootViewController() -> Bool {
-        if let viewControllers = navigationController?.viewControllers {
-            return (viewControllers[0] ) == self
-        }
-        return false
+        return navigationController?.viewControllers.first == self
     }
 }
 

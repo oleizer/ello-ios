@@ -23,6 +23,22 @@ class JWTSpec: QuickSpec {
                     }
                 }
 
+                context("nabaroo") {
+                    let data = stubbedData("jwt-auth-is-nabaroo")
+                    var token: AuthToken!
+
+                    beforeEach {
+                        AuthToken.reset()
+                        token = AuthToken()
+                        AuthToken.storeToken(data, isPasswordBased: true)
+                    }
+
+                    it("is nabaroo") {
+                        JWT.refresh()
+                        expect(token.isNabaroo) == true
+                    }
+                }
+
                 context("NON staff") {
                     let data = stubbedData("jwt-auth-no-staff")
                     var token: AuthToken!

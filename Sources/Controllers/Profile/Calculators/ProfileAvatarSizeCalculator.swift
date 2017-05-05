@@ -17,5 +17,3 @@ struct ProfileAvatarSizeCalculator {
         return promise.future
     }
 }
-
-private extension ProfileAvatarSizeCalculator {}

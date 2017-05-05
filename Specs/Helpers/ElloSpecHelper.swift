@@ -6,6 +6,7 @@
 import Quick
 import Nimble_Snapshots
 
+
 // Add in custom configuration
 class ElloConfiguration: QuickConfiguration {
     override class func configure(_ config: Configuration) {

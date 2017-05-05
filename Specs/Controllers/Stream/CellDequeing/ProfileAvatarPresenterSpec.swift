@@ -48,4 +48,3 @@ class ProfileAvatarPresenterSpec: QuickSpec {
         }
     }
 }
-

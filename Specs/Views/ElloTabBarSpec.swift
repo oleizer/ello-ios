@@ -5,7 +5,6 @@
 @testable import Ello
 import Quick
 import Nimble
-import Nimble_Snapshots
 
 
 class ElloTabBarSpec: QuickSpec {
@@ -36,7 +35,7 @@ class ElloTabBarSpec: QuickSpec {
                         prepareForSnapshot(subject, size: portraitSize)
                     }
                     it("should be in the correct location") {
-                        expect(subject).to(haveValidSnapshot())
+                        expectValidSnapshot(subject)
                     }
                 }
                 context("landscape") {
@@ -44,7 +43,7 @@ class ElloTabBarSpec: QuickSpec {
                         prepareForSnapshot(subject, size: landscapeSize)
                     }
                     it("should be in the correct location") {
-                        expect(subject).to(haveValidSnapshot())
+                        expectValidSnapshot(subject)
                     }
                 }
             }

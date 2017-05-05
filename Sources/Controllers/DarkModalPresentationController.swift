@@ -1,8 +1,8 @@
 ////
-///  ProfileCategoriesPresentationController.swift
+///  DarkModalPresentationController.swift
 //
 
-class ProfileCategoriesPresentationController: UIPresentationController {
+class DarkModalPresentationController: UIPresentationController {
 
     let background: UIView = {
         let background = UIView(frame: .zero)
@@ -17,7 +17,7 @@ class ProfileCategoriesPresentationController: UIPresentationController {
 }
 
 // MARK: Presentation
-extension ProfileCategoriesPresentationController {
+extension DarkModalPresentationController {
     override func presentationTransitionWillBegin() {
         guard let containerView = containerView else { return }
         background.alpha = 0

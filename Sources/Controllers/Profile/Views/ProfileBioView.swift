@@ -83,5 +83,3 @@ extension ProfileBioView: UIWebViewDelegate {
         return ElloWebViewHelper.handle(request: request, origin: self)
     }
 }
-
-extension ProfileBioView: ProfileViewProtocol {}

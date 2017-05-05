@@ -26,6 +26,7 @@ struct ProfileHeaderCellPresenter {
         ProfileAvatarPresenter.configure(cell.avatarView, user: user, currentUser: currentUser)
         ProfileStatsPresenter.configure(cell.statsView, user: user, currentUser: currentUser)
         ProfileTotalCountPresenter.configure(cell.totalCountView, user: user, currentUser: currentUser)
+        ProfileBadgesPresenter.configure(cell.badgesView, user: user, currentUser: currentUser)
         ProfileBioPresenter.configure(cell.bioView, user: user, currentUser: currentUser)
         ProfileLocationPresenter.configure(cell.locationView, user: user, currentUser: currentUser)
         ProfileLinksPresenter.configure(cell.linksView, user: user, currentUser: currentUser)

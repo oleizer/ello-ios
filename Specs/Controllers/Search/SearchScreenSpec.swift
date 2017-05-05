@@ -5,7 +5,7 @@
 @testable import Ello
 import Quick
 import Nimble
-import Nimble_Snapshots
+
 
 class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
     var searchFieldWasCleared = false
@@ -95,7 +95,7 @@ class SearchScreenSpec: QuickSpec {
 
                         it("shows find friends text") {
                             _ = subject.textFieldShouldClear(subject.searchField)
-                            expect(subject).to(haveValidSnapshot())
+                            expectValidSnapshot(subject)
                         }
                     }
 
@@ -108,7 +108,7 @@ class SearchScreenSpec: QuickSpec {
 
                         it("hides find friends text") {
                             _ = subject.textFieldShouldClear(subject.searchField)
-                            expect(subject).to(haveValidSnapshot())
+                            expectValidSnapshot(subject)
                         }
                     }
                 }
@@ -116,4 +116,3 @@ class SearchScreenSpec: QuickSpec {
         }
     }
 }
-

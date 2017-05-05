@@ -24,9 +24,10 @@ final class CategoryViewController: StreamableViewController {
         set { self.tabBarItem = newValue }
     }
 
-    var mockScreen: CategoryScreenProtocol?
+    private var _mockScreen: CategoryScreenProtocol?
     var screen: CategoryScreenProtocol {
-        return mockScreen ?? self.view as! CategoryScreenProtocol
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! CategoryScreen }
     }
 
     var category: Category?
@@ -38,8 +39,7 @@ final class CategoryViewController: StreamableViewController {
     var userDidScroll: Bool = false
 
     var showBackButton: Bool {
-        guard let navigationController = navigationController else { return false }
-        return navigationController.viewControllers.first != self
+        return !isRootViewController()
     }
 
     init(slug: String, name: String? = nil) {
@@ -112,7 +112,7 @@ final class CategoryViewController: StreamableViewController {
 
     override func hideNavBars() {
         super.hideNavBars()
-        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint, animated: true)
+        positionNavBar(screen.navigationBar, visible: false, withConstraint: screen.navigationBarTopConstraint)
         screen.animateCategoriesList(navBarVisible: false)
         updateInsets()
     }

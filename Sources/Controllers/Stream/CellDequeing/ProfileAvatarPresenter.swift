@@ -17,7 +17,5 @@ struct ProfileAvatarPresenter {
         else if let url = user.avatarURL(viewsAdultContent: currentUser?.viewsAdultContent, animated: true) {
             view.avatarURL = url
         }
-
-        view.badgeVisible = user.totalViewsCount == nil && (user.categories?.count ?? 0) > 0
     }
 }

@@ -12,7 +12,8 @@ class ProfileHeaderGhostCellSpec: QuickSpec {
         describe("ProfileHeaderGhostCell") {
             it("snapshot") {
                 let subject = ProfileHeaderGhostCell()
-                expectValidSnapshot(subject, named: "ProfileHeaderGhostCell", device: .custom(CGSize(width: 375, height: ProfileHeaderGhostCell.Size.height)))
+                subject.frame.size = CGSize(width: 375, height: ProfileHeaderGhostCell.Size.height)
+                expectValidSnapshot(subject, named: "ProfileHeaderGhostCell")
             }
         }
     }
